@@ -19,6 +19,14 @@ const getAllUsers = async (req: Request, res: Response) => {
 const updateUserStatus = async (req: Request, res: Response) => {
     try {
         const userId = req.params.id as string;
+        // Only check coming inside status or not
+        if (!req.body.status) {
+            res.status(400).json({
+                success: false,
+                message: "Status is required",
+            });
+            return;
+        }
         const { status } = req.body;
         const user = await AdminService.updateUserStatus(userId, status as string);
         res.status(200).json({

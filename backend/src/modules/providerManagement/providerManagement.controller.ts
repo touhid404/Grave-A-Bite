@@ -3,14 +3,7 @@ import { ProviderManagementService } from "./providerManagement.service";
 
 const addMeal = async (req: Request, res: Response) => {
     try {
-        const userId = req.user?.id;
-        if (!userId) {
-            res.status(401).json({
-                success: false,
-                message: "Unauthorized",
-            });
-            return;
-        }
+        const userId = req.user?.id as string;
         const meal = await ProviderManagementService.addMeal(userId, req.body);
         res.status(201).json({
             success: true,
@@ -27,7 +20,7 @@ const addMeal = async (req: Request, res: Response) => {
 const updateMeal = async (req: Request, res: Response) => {
     try {
         const mealId = req.params.id as string;
-        const userId = (req as any).user?.id;
+        const userId = req.user?.id as string;
         const meal = await ProviderManagementService.updateMeal(userId, mealId, req.body);
         res.status(200).json({
             success: true,
