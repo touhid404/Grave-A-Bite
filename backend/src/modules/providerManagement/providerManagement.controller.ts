@@ -1,11 +1,17 @@
 import { Request, Response } from "express";
 import { ProviderManagementService } from "./providerManagement.service";
-import { CLIENT_RENEG_LIMIT } from "node:tls";
 
 const addMeal = async (req: Request, res: Response) => {
     try {
         const userId = req.user?.id;
-        const meal = await ProviderManagementService.addMeal(userId as string, req.body);
+        if (!userId) {
+            res.status(401).json({
+                success: false,
+                message: "Unauthorized",
+            });
+            return;
+        }
+        const meal = await ProviderManagementService.addMeal(userId, req.body);
         res.status(201).json({
             success: true,
             data: meal,

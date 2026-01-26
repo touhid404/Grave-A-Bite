@@ -1,7 +1,7 @@
+import { Meal, OrderStatus, ProviderProfile } from "../../../generated/prisma/client";
 import { prisma } from "../../lib/prisma";
-import { OrderStatus } from "../../../generated/prisma/client";
 
-const addMeal = async (userId: string, mealData: any) => {
+const addMeal = async (userId: string, mealData: Meal) => {
     const provider = await prisma.providerProfile.findUnique({
         where: { userId },
     });
@@ -18,7 +18,7 @@ const addMeal = async (userId: string, mealData: any) => {
     });
 };
 
-const updateMeal = async (userId: string, mealId: string, mealData: any) => {
+const updateMeal = async (userId: string, mealId: string, mealData: Meal) => {
     const provider = await prisma.providerProfile.findUnique({
         where: { userId },
     });
