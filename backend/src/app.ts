@@ -4,11 +4,12 @@ import { auth } from "./lib/auth";
 import cors from 'cors';
 import errorHandler from "./middlewares/globalErrorHandler";
 import { notFound } from "./middlewares/notFound";
+import { ProviderManagementRoutes } from "./modules/providerManagement/providerManagement.routes";
 
 const app: Application = express();
 
 app.use(cors({
-    origin: process.env.APP_URL || "http://localhost:4000", // client side url
+    origin: process.env.APP_URL,
     credentials: true
 }))
 
@@ -16,6 +17,9 @@ app.use(express.json());
 
 app.all("/api/auth/*splat", toNodeHandler(auth));
 
+// Module Routes
+
+app.use("/api/provider-management", ProviderManagementRoutes);
 
 app.get("/", (req, res) => {
     res.send("Hello, From FoodHub Backend");

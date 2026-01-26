@@ -47,10 +47,10 @@ export const auth = betterAuth({
     sendVerificationEmail: async ({ user, url, token }, request) => {
       try {
         const verificationUrl = `${process.env.APP_URL}/verify-email?token=${token}`
-        const info = await transporter.sendMail({
-          from: '"Prisma Blog" <prismablog@ph.com>',
+        await transporter.sendMail({
+          from: '"FoodHub" <noreply@foodhub.com>',
           to: user.email,
-          subject: "Please verify your email!",
+          subject: "Verify your FoodHub account",
           html: `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,139 +58,53 @@ export const auth = betterAuth({
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Email Verification</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #f4f6f8;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 40px auto;
-      background-color: #ffffff;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-
-    .header {
-      background-color: #0f172a;
-      color: #ffffff;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 22px;
-    }
-
-    .content {
-      padding: 30px;
-      color: #334155;
-      line-height: 1.6;
-    }
-
-    .content h2 {
-      margin-top: 0;
-      font-size: 20px;
-      color: #0f172a;
-    }
-
-    .button-wrapper {
-      text-align: center;
-      margin: 30px 0;
-    }
-
-    .verify-button {
-      background-color: #2563eb;
-      color: #ffffff !important;
-      padding: 14px 28px;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 6px;
-      display: inline-block;
-    }
-
-    .verify-button:hover {
-      background-color: #1d4ed8;
-    }
-
-    .footer {
-      background-color: #f1f5f9;
-      padding: 20px;
-      text-align: center;
-      font-size: 13px;
-      color: #64748b;
-    }
-
-    .link {
-      word-break: break-all;
-      font-size: 13px;
-      color: #2563eb;
-    }
+    body { margin: 0; padding: 0; background-color: #f4f6f8; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .container { max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); }
+    .header { background-color: #0f172a; color: #ffffff; padding: 30px; text-align: center; }
+    .header h1 { margin: 0; font-size: 28px; letter-spacing: 1px; font-weight: 800; color: #ffffff; }
+    .header span { color: #e11d48; }
+    .content { padding: 40px; color: #334155; line-height: 1.8; }
+    .content h2 { margin-top: 0; font-size: 22px; color: #0f172a; font-weight: 700; }
+    .button-wrapper { text-align: center; margin: 35px 0; }
+    .verify-button { background-color: #e11d48; color: #ffffff !important; padding: 16px 32px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block; transition: background-color 0.3s ease; box-shadow: 0 4px 14px rgba(225, 29, 72, 0.39); }
+    .verify-button:hover { background-color: #be123c; }
+    .footer { background-color: #f8fafc; padding: 25px; text-align: center; font-size: 14px; color: #64748b; border-top: 1px solid #f1f5f9; }
+    .url-text { font-size: 12px; color: #94a3b8; word-break: break-all; margin-top: 20px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
     <div class="header">
-      <h1>Prisma Blog</h1>
+      <h1>Food<span>Hub</span></h1>
     </div>
-
-    <!-- Content -->
     <div class="content">
-      <h2>Verify Your Email Address</h2>
-      <p>
-        Hello ${user.name} <br /><br />
-        Thank you for registering on <strong>Prisma Blog</strong>.
-        Please confirm your email address to activate your account.
-      </p>
-
+      <h2>Almost there!</h2>
+      <p>Hello <strong>${user.name}</strong>,</p>
+      <p>Thank you for joining FoodHub! To complete your registration and start exploring the best meals in town, please verify your email address by clicking the button below.</p>
       <div class="button-wrapper">
-        <a href="${verificationUrl}" class="verify-button">
-          Verify Email
-        </a>
+        <a href="${verificationUrl}" class="verify-button">Verify My Account</a>
       </div>
-
-      <p>
-        If the button doesn’t work, copy and paste the link below into your browser:
-      </p>
-
-      <p class="link">
-        ${url}
-      </p>
-
-      <p>
-        This verification link will expire soon for security reasons.
-        If you did not create an account, you can safely ignore this email.
-      </p>
-
-      <p>
-        Regards, <br />
-        <strong>Prisma Blog Team</strong>
-      </p>
+      <p>This link will expire in 24 hours. If you did not create a FoodHub account, you can safely ignore this email.</p>
+      <p>Happy Eating,<br /><strong>The FoodHub Team</strong></p>
+      <div class="url-text">
+        If the button isn't working, copy and paste this link: <br />
+        ${verificationUrl}
+      </div>
     </div>
-
-    <!-- Footer -->
     <div class="footer">
-      © 2025 Prisma Blog. All rights reserved.
+      &copy; 2026 FoodHub. All rights reserved. <br />
+      Designed for foodies, by foodies.
     </div>
   </div>
 </body>
-</html>
-`
+</html>`
         });
-
-        console.log("Message sent:", info.messageId);
+        console.log("Premium verification email sent to:", user.email);
       } catch (err) {
-        console.error(err)
-        throw err;
+        console.error("Failed to send premium verification email:", err);
       }
     },
   },
-
   socialProviders: {
     google: {
       prompt: "select_account consent",
@@ -200,8 +114,3 @@ export const auth = betterAuth({
     },
   },
 });
-
-
-//
-// GOOGLE_CLIENT_ID
-// GOOGLE_CLIENT_SECRET
