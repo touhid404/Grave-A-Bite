@@ -37,7 +37,7 @@ const updateMeal = async (req: Request, res: Response) => {
 const deleteMeal = async (req: Request, res: Response) => {
     try {
         const mealId = req.params.id as string;
-        const userId = (req as any).user?.id;
+        const userId = req.user?.id as string;
         await ProviderManagementService.deleteMeal(userId, mealId);
         res.status(200).json({
             success: true,
@@ -54,6 +54,14 @@ const deleteMeal = async (req: Request, res: Response) => {
 const updateOrderStatus = async (req: Request, res: Response) => {
     try {
         const orderId = req.params.id as string;
+        // Only check coming inside status or not
+        if (!req.body.status) {
+            res.status(400).json({
+                success: false,
+                message: "Status is required",
+            });
+            return;
+        }
         const { status } = req.body;
         const order = await ProviderManagementService.updateOrderStatus(orderId, status);
         res.status(200).json({
