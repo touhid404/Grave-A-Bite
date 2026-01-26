@@ -1,0 +1,104 @@
+// Food Schema - FoodHub specific models
+
+enum OrderStatus {
+  PLACED
+  PREPARING
+  READY
+  DELIVERED
+  CANCELLED
+}
+
+model ProviderProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  storeName   String
+  description String?
+  address     String
+  logo        String?
+  cuisineType String?
+  isApproved  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  meals Meal[]
+
+  @@map("provider_profile")
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  meals Meal[]
+
+  @@map("category")
+}
+
+model Meal {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  image       String?
+  isAvailable Boolean  @default(true)
+  dietary     String[] // e.g., ["vegetarian", "gluten-free"]
+  providerId  String
+  categoryId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  provider   ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  category   Category        @relation(fields: [categoryId], references: [id])
+  orderItems OrderItem[]
+  reviews    Review[]
+
+  @@map("meal")
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  customerId      String
+  status          OrderStatus @default(PLACED)
+  totalAmount     Float
+  deliveryAddress String
+  deliveryPhone   String
+  notes           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  orderItems OrderItem[]
+
+  @@map("order")
+}
+
+model OrderItem {
+  id       String @id @default(cuid())
+  orderId  String
+  mealId   String
+  quantity Int
+  price    Float
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  meal  Meal  @relation(fields: [mealId], references: [id])
+
+  @@map("order_item")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int // 1-5
+  comment   String?
+  mealId    String
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  meal Meal @relation(fields: [mealId], references: [id], onDelete: Cascade)
+
+  @@unique([mealId, userId])
+  @@map("review")
+}
