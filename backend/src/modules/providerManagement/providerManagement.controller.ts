@@ -76,9 +76,26 @@ const updateOrderStatus = async (req: Request, res: Response) => {
     }
 };
 
+const getProviderOrders = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.id as string;
+        const orders = await ProviderManagementService.getProviderOrders(userId);
+        res.status(200).json({
+            success: true,
+            data: orders,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
 export const ProviderManagementController = {
     addMeal,
     updateMeal,
     deleteMeal,
     updateOrderStatus,
+    getProviderOrders,
 };
