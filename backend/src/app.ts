@@ -7,6 +7,7 @@ import { notFound } from "./middlewares/notFound";
 import { ProviderManagementRoutes } from "./modules/providerManagement/providerManagement.routes";
 import { AdminRoutes } from "./modules/admin/admin.routes";
 import { PublicRoutes } from "./modules/public/publicMeal&Provider.routes";
+import { OrderRoutes } from "./modules/orders/orders.routes";
 
 const app: Application = express();
 
@@ -23,6 +24,7 @@ app.all("/api/auth/*splat", toNodeHandler(auth));
 app.use("/api/public", PublicRoutes);
 app.use("/api/provider-management", ProviderManagementRoutes);
 app.use("/api/admin", AdminRoutes);
+app.use("/api/orders", OrderRoutes);
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello, From FoodHub Backend");
