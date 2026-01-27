@@ -16,7 +16,7 @@ model ProviderProfile {
   address     String
   logo        String?
   cuisineType String?
-  isApproved  Boolean  @default(false)
+  isApproved  Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
