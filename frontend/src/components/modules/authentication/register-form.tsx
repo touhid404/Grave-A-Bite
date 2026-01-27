@@ -19,18 +19,21 @@ import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
+import * as React from "react";
 import Link from "next/link";
 import { toast } from "sonner";
 import * as z from "zod";
+import { MailCheck, ArrowLeft } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(1, "This field is required"),
   password: z.string().min(8, "Minimum length is 8"),
-  email: z.email(),
+  email: z.string().email("Invalid email address"),
 });
 
 export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter();
+  const [emailSent, setEmailSent] = React.useState(false);
 
   const handleGoogleLogin = async () => {
     const data = authClient.signIn.social({
@@ -58,14 +61,46 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
           return;
         }
 
-        toast.success("User Created Successfully", { id: toastId });
-        router.push("/dashboard");
-        router.refresh();
+        toast.success("Account created successfully", { id: toastId });
+        setEmailSent(true);
       } catch (err) {
         toast.error("Something went wrong, please try again.", { id: toastId });
       }
     },
   });
+
+  if (emailSent) {
+    return (
+      <Card className="border-2 rounded-[2.5rem] shadow-2xl overflow-hidden bg-card/40 backdrop-blur-md border-white/5 text-center animate-in fade-in zoom-in duration-500" {...props}>
+        <CardHeader className="pt-10 pb-4">
+          <div className="mx-auto w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center mb-6 animate-bounce">
+            <MailCheck className="h-10 w-10 text-primary" />
+          </div>
+          <CardTitle className="text-4xl font-black tracking-tighter uppercase leading-none">
+            Check your <span className="text-primary italic">Inbox</span>
+          </CardTitle>
+          <CardDescription className="text-muted-foreground font-bold text-sm mt-4 max-w-[280px] mx-auto">
+            We've sent a verification link to your email address. Please click it to activate your account.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="px-10 pb-10">
+          <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 mb-8">
+            <p className="text-xs font-medium text-primary">
+              Didn't receive it? Check your spam folder or try re-registering.
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            className="w-full h-12 rounded-2xl border-2 border-border/50 font-black hover:bg-muted transition-all uppercase text-xs tracking-wider flex gap-2"
+            onClick={() => router.push("/login")}
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to Login
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="border-2 rounded-[2.5rem] shadow-2xl overflow-hidden bg-card/40 backdrop-blur-md border-white/5" {...props}>
@@ -103,7 +138,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
                         placeholder="Alex J."
                         name={field.name}
                         value={field.state.value}
-                        onChange={(field: any) => field.handleChange(field.target.value)}
+                        onChange={(e) => field.handleChange(e.target.value)}
                       />
                       {isInvalid && (
                         <FieldError className="text-[10px] font-black text-destructive uppercase tracking-tight ml-1" errors={field.state.meta.errors} />
@@ -127,7 +162,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
                         placeholder="alex@gm.com"
                         name={field.name}
                         value={field.state.value}
-                        onChange={(field: any) => field.handleChange(field.target.value)}
+                        onChange={(e) => field.handleChange(e.target.value)}
                       />
                       {isInvalid && (
                         <FieldError className="text-[10px] font-black text-destructive uppercase tracking-tight ml-1" errors={field.state.meta.errors} />
