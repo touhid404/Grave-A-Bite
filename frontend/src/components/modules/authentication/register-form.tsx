@@ -68,89 +68,94 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
   });
 
   return (
-    <Card className="border-2 rounded-3xl shadow-xl overflow-hidden bg-card/50 backdrop-blur-sm" {...props}>
-      <CardHeader className="space-y-1 pb-6">
-        <CardTitle className="text-3xl font-black tracking-tight">
+    <Card className="border-2 rounded-[2.5rem] shadow-2xl overflow-hidden bg-card/40 backdrop-blur-md border-white/5" {...props}>
+      <CardHeader className="space-y-1 pt-4 pb-1 text-center">
+        <CardTitle className="text-3xl font-black tracking-tighter uppercase leading-none">
           Join <span className="text-primary italic">FoodHub</span>
         </CardTitle>
-        <CardDescription className="text-muted-foreground font-medium">
-          Create an account to start ordering delicious meals.
+        <CardDescription className="text-muted-foreground font-bold text-[9px] uppercase tracking-widest opacity-60">
+          Delicious meals await
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-10 py-1">
         <form
           id="register-form"
           onSubmit={(e) => {
             e.preventDefault();
             form.handleSubmit();
           }}
-          className="space-y-4"
+          className="space-y-2.5"
         >
-          <FieldGroup className="space-y-4">
-            <form.Field
-              name="name"
-              children={(field: any) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
-                return (
-                  <Field className="space-y-2">
-                    <FieldLabel className="font-bold text-sm uppercase tracking-wider text-muted-foreground" htmlFor={field.name}>Full Name</FieldLabel>
-                    <Input
-                      className="rounded-xl border-2 focus-visible:ring-primary h-12 bg-background/50"
-                      type="text"
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                    {isInvalid && (
-                      <FieldError className="text-xs font-bold text-destructive" errors={field.state.meta.errors} />
-                    )}
-                  </Field>
-                );
-              }}
-            />
-            <form.Field
-              name="email"
-              children={(field: any) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
-                return (
-                  <Field className="space-y-2">
-                    <FieldLabel className="font-bold text-sm uppercase tracking-wider text-muted-foreground" htmlFor={field.name}>Email</FieldLabel>
-                    <Input
-                      className="rounded-xl border-2 focus-visible:ring-primary h-12 bg-background/50"
-                      type="email"
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                    {isInvalid && (
-                      <FieldError className="text-xs font-bold text-destructive" errors={field.state.meta.errors} />
-                    )}
-                  </Field>
-                );
-              }}
-            />
+          <FieldGroup className="space-y-3">
+            <div className="grid grid-cols-2 gap-4">
+              <form.Field
+                name="name"
+                children={(field: any) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid;
+                  return (
+                    <Field className="space-y-1">
+                      <FieldLabel className="font-black text-[10px] uppercase tracking-[0.2em] text-primary/80 ml-1" htmlFor={field.name}>Full Name</FieldLabel>
+                      <Input
+                        className="rounded-2xl border-2 border-border/50 focus-visible:ring-primary h-11 bg-background/30 font-bold text-sm"
+                        type="text"
+                        id={field.name}
+                        placeholder="Alex J."
+                        name={field.name}
+                        value={field.state.value}
+                        onChange={(field: any) => field.handleChange(field.target.value)}
+                      />
+                      {isInvalid && (
+                        <FieldError className="text-[10px] font-black text-destructive uppercase tracking-tight ml-1" errors={field.state.meta.errors} />
+                      )}
+                    </Field>
+                  );
+                }}
+              />
+              <form.Field
+                name="email"
+                children={(field: any) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid;
+                  return (
+                    <Field className="space-y-1">
+                      <FieldLabel className="font-black text-[10px] uppercase tracking-[0.2em] text-primary/80 ml-1" htmlFor={field.name}>Email</FieldLabel>
+                      <Input
+                        className="rounded-2xl border-2 border-border/50 focus-visible:ring-primary h-11 bg-background/30 font-bold text-sm"
+                        type="email"
+                        id={field.name}
+                        placeholder="alex@gm.com"
+                        name={field.name}
+                        value={field.state.value}
+                        onChange={(field: any) => field.handleChange(field.target.value)}
+                      />
+                      {isInvalid && (
+                        <FieldError className="text-[10px] font-black text-destructive uppercase tracking-tight ml-1" errors={field.state.meta.errors} />
+                      )}
+                    </Field>
+                  );
+                }}
+              />
+            </div>
             <form.Field
               name="password"
               children={(field: any) => {
                 const isInvalid =
                   field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
-                  <Field className="space-y-2">
-                    <FieldLabel className="font-bold text-sm uppercase tracking-wider text-muted-foreground" htmlFor={field.name}>Password</FieldLabel>
+                  <Field className="space-y-1">
+                    <FieldLabel className="font-black text-[9px] uppercase tracking-[0.2em] text-primary/80 ml-1" htmlFor={field.name}>Password</FieldLabel>
                     <Input
-                      className="rounded-xl border-2 focus-visible:ring-primary h-12 bg-background/50"
+                      className="rounded-2xl border-2 border-border/50 focus-visible:ring-primary h-11 bg-background/30 font-bold text-sm"
                       type="password"
                       id={field.name}
+                      placeholder="••••••••"
                       name={field.name}
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
                     {isInvalid && (
-                      <FieldError className="text-xs font-bold text-destructive" errors={field.state.meta.errors} />
+                      <FieldError className="text-[9px] font-black text-destructive uppercase tracking-tight ml-1" errors={field.state.meta.errors} />
                     )}
                   </Field>
                 );
@@ -159,30 +164,30 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
           </FieldGroup>
         </form>
       </CardContent>
-      <CardFooter className="flex flex-col gap-4 pb-8">
-        <Button form="register-form" type="submit" className="w-full h-12 rounded-xl font-black text-lg bg-primary text-black hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
-          Create Account
+      <CardFooter className="flex flex-col gap-2.5 px-10 pb-6 pt-1">
+        <Button form="register-form" type="submit" className="w-full h-11 rounded-2xl font-black text-lg bg-primary text-black hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all active:scale-[0.97] uppercase italic tracking-tighter">
+          Join Now
         </Button>
-        <div className="relative w-full py-2">
+        <div className="relative w-full py-0.5">
           <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-muted" />
+            <span className="w-full border-t border-border/50" />
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-card px-2 text-muted-foreground font-bold italic">Or join with</span>
+          <div className="relative flex justify-center text-[8px] uppercase tracking-[0.4em]">
+            <span className="bg-transparent backdrop-blur-sm px-2 text-muted-foreground font-black italic">Social</span>
           </div>
         </div>
         <Button
           onClick={() => handleGoogleLogin()}
           variant="outline"
           type="button"
-          className="w-full h-12 rounded-xl border-2 font-bold hover:bg-muted transition-all active:scale-[0.98]"
+          className="w-full h-10 rounded-2xl border-2 border-border/50 font-black hover:bg-muted transition-all active:scale-[0.97] uppercase text-[10px] tracking-wider flex gap-2"
         >
-          <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>
-          Google
+          <svg className="h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>
+          Google login
         </Button>
-        <p className="text-sm text-center text-muted-foreground mt-2">
-          Already have an account?{" "}
-          <Link href="/login" className="text-primary font-black hover:underline italic">
+        <p className="text-[11px] text-center text-muted-foreground mt-0 font-medium">
+          Member?{" "}
+          <Link href="/login" className="text-primary font-black hover:underline italic uppercase tracking-tighter">
             Login
           </Link>
         </p>

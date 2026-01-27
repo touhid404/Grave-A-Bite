@@ -141,40 +141,40 @@ const Navbar = ({
 
   return (
     <section className={cn(
-      "fixed top-0 left-0 right-0 z-40 transition-all duration-500 py-4",
-      scrolled ? "bg-background/70 backdrop-blur-xl border-b border-border/50 shadow-lg py-3" : "bg-transparent",
+      "fixed top-0 left-0 right-0 z-40 transition-all duration-500 py-2.5",
+      scrolled ? "bg-background/40 backdrop-blur-2xl border-b border-border/40 shadow-sm py-2" : "bg-transparent",
       className
     )}>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-7xl">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">
           <div className="flex items-center gap-8">
             {/* Logo */}
-            <Link href={logo.url} className="flex items-center gap-3 group">
-              <div className="w-11 h-11 rounded-2xl bg-primary flex items-center justify-center group-hover:rotate-12 transition-all duration-300 shadow-lg shadow-primary/20">
-                <UtensilsCrossed className="h-6 w-6 text-black" />
+            <Link href={logo.url} className="flex items-center gap-2 group">
+              <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center group-hover:rotate-12 transition-all duration-300 shadow-lg shadow-primary/20">
+                <UtensilsCrossed className="h-5 w-5 text-black" />
               </div>
-              <span className="text-2xl font-black tracking-tighter">
+              <span className="text-xl font-black tracking-tighter">
                 Food<span className="text-primary italic">Hub</span>
               </span>
             </Link>
             <div className="flex items-center">
               <NavigationMenu>
-                <NavigationMenuList className="gap-2">
+                <NavigationMenuList className="gap-1">
                   {menu.map((item) => renderMenuItem(item))}
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-3 items-center">
             <ModeToggle />
             {isPending ? (
-              <div className="h-9 w-20 animate-pulse bg-muted rounded-md" />
+              <div className="h-8 w-16 animate-pulse bg-muted rounded-md" />
             ) : session?.user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-                    <Avatar className="h-9 w-9">
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <Avatar className="h-8 w-8">
                       <AvatarImage src={session.user.image || undefined} alt={session.user.name || "Customer"} />
                       <AvatarFallback className="bg-primary text-primary-foreground">
                         {getInitials(session.user.name)}
