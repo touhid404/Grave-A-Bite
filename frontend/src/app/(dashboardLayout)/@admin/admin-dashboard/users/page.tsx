@@ -17,7 +17,8 @@ export default async function UsersPage() {
         );
     }
 
-    const users = data?.data || [];
+    const allUsers = data?.data || [];
+    const users = allUsers.filter((u: any) => u.role !== "ADMIN");
 
     return (
         <div className="space-y-8">

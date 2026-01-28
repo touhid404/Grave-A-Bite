@@ -92,10 +92,27 @@ const getProviderOrders = async (req: Request, res: Response) => {
     }
 };
 
+const getProviderMeals = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.id as string;
+        const meals = await ProviderManagementService.getProviderMeals(userId);
+        res.status(200).json({
+            success: true,
+            data: meals,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
 export const ProviderManagementController = {
     addMeal,
     updateMeal,
     deleteMeal,
     updateOrderStatus,
     getProviderOrders,
+    getProviderMeals,
 };

@@ -7,6 +7,7 @@ const router = Router();
 router.post("/meals", authMiddleware(UserRole.PROVIDER), ProviderManagementController.addMeal);
 router.put("/meals/:id", authMiddleware(UserRole.PROVIDER), ProviderManagementController.updateMeal);
 router.delete("/meals/:id", authMiddleware(UserRole.PROVIDER), ProviderManagementController.deleteMeal);
+router.get("/meals", authMiddleware(UserRole.PROVIDER), ProviderManagementController.getProviderMeals);
 router.get("/orders", authMiddleware(UserRole.PROVIDER), ProviderManagementController.getProviderOrders);
 router.patch("/orders/:id", authMiddleware(UserRole.PROVIDER), ProviderManagementController.updateOrderStatus);
 
