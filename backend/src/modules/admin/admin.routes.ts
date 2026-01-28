@@ -15,4 +15,7 @@ router.post("/categories", authMiddleware(UserRole.ADMIN), AdminController.addCa
 router.put("/categories/:id", authMiddleware(UserRole.ADMIN), AdminController.updateCategory);
 router.delete("/categories/:id", authMiddleware(UserRole.ADMIN), AdminController.deleteCategory);
 
+// View All Orders
+router.get("/orders", authMiddleware(UserRole.ADMIN), AdminController.getAllOrders);
+
 export const AdminRoutes = router;

@@ -6,6 +6,7 @@ import { foodService } from "@/services/food.service";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import JoinCommunity from "@/components/modules/homepage/JoinCommunity";
 
 export default async function Home() {
   const mealsPromise = foodService.getMeals({ limit: "6" });
@@ -69,6 +70,7 @@ export default async function Home() {
       </section>
 
       <HowItWorks />
+      <JoinCommunity/>
 
 
       <NewsletterFooter />

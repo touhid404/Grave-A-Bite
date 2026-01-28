@@ -13,6 +13,23 @@ const updateUserStatus = async (userId: string, status: string) => {
     });
 };
 
+const getAllOrders = async () => {
+    return await prisma.order.findMany({
+        include: {
+            orderItems: {
+                include: {
+                    meal: {
+                        include: {
+                            provider: true
+                        }
+                    }
+                }
+            }
+        },
+        orderBy: { createdAt: "desc" }
+    });
+};
+
 // Make Provider By Admin
 const makeProvider = async (providerData: ProviderProfile) => {
     return await prisma.$transaction(async (tx) => {
@@ -59,4 +76,5 @@ export const AdminService = {
     addCategory,
     updateCategory,
     deleteCategory,
+    getAllOrders,
 };

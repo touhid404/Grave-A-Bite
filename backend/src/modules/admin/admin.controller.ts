@@ -88,7 +88,7 @@ const deleteCategory = async (req: Request, res: Response) => {
             message: error.message,
         });
     }
-};  
+};
 
 
 // Make Provider By Admin (OK)
@@ -120,6 +120,21 @@ const makeProvider = async (req: Request, res: Response) => {
     }
 };
 
+const getAllOrders = async (req: Request, res: Response) => {
+    try {
+        const orders = await AdminService.getAllOrders();
+        res.status(200).json({
+            success: true,
+            data: orders,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
 export const AdminController = {
     getAllUsers,
     updateUserStatus,
@@ -127,4 +142,5 @@ export const AdminController = {
     addCategory,
     updateCategory,
     deleteCategory,
+    getAllOrders,
 };
