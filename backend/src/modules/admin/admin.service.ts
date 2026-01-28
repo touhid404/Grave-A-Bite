@@ -6,6 +6,10 @@ const getAllUsers = async () => {
     return await prisma.user.findMany();
 };
 
+const getAllCategories = async (userId: string) => {
+    return await prisma.category.findMany();
+};
+
 const updateUserStatus = async (userId: string, status: string) => {
     return await prisma.user.update({
         where: { id: userId },
@@ -77,4 +81,5 @@ export const AdminService = {
     updateCategory,
     deleteCategory,
     getAllOrders,
+    getAllCategories,
 };

@@ -50,10 +50,13 @@ export function AppSidebar({
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link href={item.url}>{item.title}</Link>
+                {item.items.map((subItem) => (
+                  <SidebarMenuItem key={subItem.title}>
+                    <SidebarMenuButton asChild tooltip={subItem.title} className="rounded-xl h-11 px-4 hover:bg-primary/10 hover:text-primary transition-all group">
+                      <Link href={subItem.url} className="flex items-center gap-3">
+                        {subItem.icon && <subItem.icon className="h-4 w-4 shrink-0 group-hover:scale-110 transition-transform" />}
+                        <span className="font-bold text-xs uppercase italic tracking-tighter">{subItem.title}</span>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}

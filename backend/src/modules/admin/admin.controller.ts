@@ -57,6 +57,29 @@ const addCategory = async (req: Request, res: Response) => {
         });
     }
 };
+// Get all categories of this admin
+const getAllCategories = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.id;
+        if (!userId) {
+            res.status(401).json({
+                success: false,
+                message: "Unauthorized",
+            });
+            return;
+        }
+        const categories = await AdminService.getAllCategories(userId);
+        res.status(200).json({
+            success: true,
+            data: categories,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
 
 const updateCategory = async (req: Request, res: Response) => {
     try {
@@ -143,4 +166,5 @@ export const AdminController = {
     updateCategory,
     deleteCategory,
     getAllOrders,
+    getAllCategories,
 };

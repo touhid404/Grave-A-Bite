@@ -11,6 +11,7 @@ router.patch("/users/:id", authMiddleware(UserRole.ADMIN), AdminController.updat
 router.post("/make-provider/:customerId", authMiddleware(UserRole.ADMIN), AdminController.makeProvider);
 
 // Manage Categories (OK)
+router.get("/categories", authMiddleware(UserRole.ADMIN), AdminController.getAllCategories);
 router.post("/categories", authMiddleware(UserRole.ADMIN), AdminController.addCategory);
 router.put("/categories/:id", authMiddleware(UserRole.ADMIN), AdminController.updateCategory);
 router.delete("/categories/:id", authMiddleware(UserRole.ADMIN), AdminController.deleteCategory);
