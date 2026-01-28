@@ -9,19 +9,19 @@ export const getMealsAction = async () => {
 
 export const addMealAction = async (mealData: any) => {
     const res = await providerService.addMeal(mealData);
-    revalidateTag("meals","max");
+    revalidateTag("meals", "max");
     return res;
 };
 
 export const updateMealAction = async (id: string, mealData: any) => {
     const res = await providerService.updateMeal(id, mealData);
-    revalidateTag("meals","max");
+    revalidateTag("meals", "max");
     return res;
 };
 
 export const deleteMealAction = async (id: string) => {
     const res = await providerService.deleteMeal(id);
-    revalidateTag("meals","max");
+    revalidateTag("meals", "max");
     return res;
 };
 
@@ -31,6 +31,16 @@ export const getOrdersAction = async () => {
 
 export const updateOrderStatusAction = async (id: string, status: string) => {
     const res = await providerService.updateOrderStatus(id, status);
-    revalidateTag("orders","max");
+    revalidateTag("orders", "max");
+    return res;
+};
+
+export const getProfileAction = async () => {
+    return await providerService.getProfile();
+};
+
+export const updateProfileAction = async (profileData: FormData) => {
+    const res = await providerService.updateProfile(profileData);
+    revalidateTag("profile", "max");
     return res;
 };

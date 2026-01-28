@@ -122,6 +122,19 @@ const getProviderMeals = async (userId: string) => {
     });
 };
 
+const getProfile = async (userId: string) => {
+    return await prisma.providerProfile.findUnique({
+        where: { userId },
+    });
+};
+
+const updateProfile = async (userId: string, profileData: Partial<ProviderProfile>) => {
+    return await prisma.providerProfile.update({
+        where: { userId },
+        data: profileData,
+    });
+};
+
 export const ProviderManagementService = {
     addMeal,
     updateMeal,
@@ -129,4 +142,6 @@ export const ProviderManagementService = {
     updateOrderStatus,
     getProviderOrders,
     getProviderMeals,
+    getProfile,
+    updateProfile,
 };

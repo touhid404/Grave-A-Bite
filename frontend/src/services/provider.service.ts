@@ -114,4 +114,40 @@ export const providerService = {
             return { data: null, error: { message: "Failed to update status" } };
         }
     },
+
+    getProfile: async function () {
+        try {
+            const cookieStore = await cookies();
+            const res = await fetch(`${API_URL}/provider-management/profile`, {
+                headers: {
+                    Cookie: cookieStore.toString(),
+                },
+                cache: "no-store",
+            });
+            const data = await res.json();
+            return { data: data, error: null };
+        } catch (err) {
+            return { data: null, error: { message: "Failed to fetch profile" } };
+        }
+    },
+
+    updateProfile: async function (profileData: FormData) {
+        try {
+            const cookieStore = await cookies();
+            const res = await fetch(`${API_URL}/provider-management/profile`, {
+                method: "PUT",
+                headers: {
+                    Cookie: cookieStore.toString(),
+                },
+                body: profileData,
+            });
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+                return { data: null, error: { message: data.message || "Failed to update profile" } };
+            }
+            return { data: data, error: null };
+        } catch (err) {
+            return { data: null, error: { message: "Failed to update profile" } };
+        }
+    },
 };

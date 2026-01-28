@@ -12,4 +12,8 @@ router.get("/meals", authMiddleware(UserRole.PROVIDER), ProviderManagementContro
 router.get("/orders", authMiddleware(UserRole.PROVIDER), ProviderManagementController.getProviderOrders);
 router.patch("/orders/:id", authMiddleware(UserRole.PROVIDER), ProviderManagementController.updateOrderStatus);
 
+// Profile Settings
+router.get("/profile", authMiddleware(UserRole.PROVIDER), ProviderManagementController.getProfile);
+router.put("/profile", authMiddleware(UserRole.PROVIDER), upload.single("logo"), ProviderManagementController.updateProfile);
+
 export const ProviderManagementRoutes = router;

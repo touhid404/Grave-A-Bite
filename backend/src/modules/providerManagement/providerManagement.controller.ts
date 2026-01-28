@@ -149,6 +149,45 @@ const getProviderMeals = async (req: Request, res: Response) => {
     }
 };
 
+const getProfile = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.id as string;
+        const profile = await ProviderManagementService.getProfile(userId);
+        res.status(200).json({
+            success: true,
+            data: profile,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+const updateProfile = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.id as string;
+        let profileData = { ...req.body };
+
+        if (req.file) {
+            const uploadResult = await uploadToCloudinary(req.file.buffer, "foodhub/providers");
+            profileData.logo = uploadResult.url;
+        }
+
+        const profile = await ProviderManagementService.updateProfile(userId, profileData);
+        res.status(200).json({
+            success: true,
+            data: profile,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
 export const ProviderManagementController = {
     addMeal,
     updateMeal,
@@ -156,4 +195,6 @@ export const ProviderManagementController = {
     updateOrderStatus,
     getProviderOrders,
     getProviderMeals,
+    getProfile,
+    updateProfile,
 };
