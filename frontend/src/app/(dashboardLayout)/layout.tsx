@@ -16,6 +16,8 @@ import {
 import { Roles } from "@/constants/roles";
 import { customerService } from "@/services/customer.service";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardLayout({
   admin,
   customer,
