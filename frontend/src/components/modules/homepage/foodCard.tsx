@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Star, Clock, Plus, ShoppingBag, Heart, Sparkles, TrendingUp } from "lucide-react";
 import Image from "next/image";
 
+import { Meal } from "@/types";
+
 interface FoodCardProps {
-    meal: any;
+    meal: Meal;
 }
 
 const FoodCard = ({ meal }: FoodCardProps) => {
@@ -71,7 +73,7 @@ const FoodCard = ({ meal }: FoodCardProps) => {
 
                 {/* Dietary Mosaic */}
                 <div className="flex flex-wrap gap-1 mb-1">
-                    {["Premium", "Organic"].map((tag) => (
+                    {(meal.dietary && meal.dietary.length > 0 ? meal.dietary : ["Premium"]).map((tag) => (
                         <div key={tag} className="flex items-center gap-1 px-1.5 py-0.5 bg-white/5 rounded-full border border-white/5">
                             <Sparkles className="h-1.5 w-1.5 text-primary" />
                             <span className="text-[6px] font-black uppercase tracking-widest text-muted-foreground">{tag}</span>

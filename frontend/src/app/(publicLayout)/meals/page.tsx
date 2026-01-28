@@ -1,96 +1,98 @@
 import FoodCard from "@/components/modules/homepage/foodCard";
 import { Input } from "@/components/ui/input";
 import { foodService } from "@/services/food.service";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search, SlidersHorizontal, Utensils, X, Star, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import MealsFilter from "@/components/modules/meals/MealsFilter";
 
 interface MealsPageProps {
-    searchParams: Promise<{ search?: string; category?: string; page?: string }>;
+    searchParams: Promise<{
+        search?: string;
+        category?: string;
+        page?: string;
+        dietary?: string;
+        minPrice?: string;
+        maxPrice?: string;
+    }>;
 }
 
 export default async function MealsPage({ searchParams }: MealsPageProps) {
     const params = await searchParams;
 
-    const response = await foodService.getMeals({
-        search: params.search,
-        category: params.category,
-        page: params.page,
-        limit: "12",
-    });
+    // Fetch meals and categories in parallel for efficiency
+    const [mealsRes, categoriesRes] = await Promise.all([
+        foodService.getMeals({
+            search: params.search,
+            category: params.category === "All" ? undefined : params.category,
+            dietary: params.dietary,
+            minPrice: params.minPrice ? parseFloat(params.minPrice) : undefined,
+            maxPrice: params.maxPrice ? parseFloat(params.maxPrice) : undefined,
+            page: params.page,
+            limit: "12",
+        }),
+        foodService.getCategories()
+    ]);
 
-    const meals = response.data?.data || [];
-    const hasError = response.error?.message;
+    const meals = mealsRes.data?.data || [];
+    const categories = categoriesRes.data?.data || [];
+    const hasError = mealsRes.error?.message;
 
     return (
-        <div className="min-h-screen pt-32 pb-24">
+        <div className="min-h-screen pt-24 pb-16 mx-5">
             <div className="container mx-auto px-4">
-                {/* Header */}
-                <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
-                    <div>
-                        <h1 className="text-5xl font-black mb-4 tracking-tighter italic">
-                            Explore Our <span className="text-primary italic">Menu</span>
-                        </h1>
-                        <p className="text-lg text-muted-foreground max-w-xl">
-                            From gourmet kitchen to your doorstep. Browse local cuisines and discover your next favorite meal.
-                        </p>
-                    </div>
 
-                    <div className="flex gap-4 w-full md:w-auto">
-                        <div className="relative flex-1 md:w-64">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                            <form>
-                                <Input
-                                    name="search"
-                                    placeholder="Search meals..."
-                                    defaultValue={params.search}
-                                    className="pl-10 h-12 rounded-xl bg-card border-none focus-visible:ring-primary shadow-sm"
-                                />
-                            </form>
-                        </div>
-                        <Button variant="outline" className="h-12 w-12 p-0 rounded-xl border-2">
-                            <SlidersHorizontal className="h-5 w-5" />
-                        </Button>
-                    </div>
-                </div>
+                {/* Dynamic Filter Component */}
+                <MealsFilter categories={categories} searchParams={params} />
 
-                {/* Categories (Placeholder for now) */}
-                <div className="flex flex-wrap gap-3 mb-12">
-                    {["All", "Burgers", "Pizza", "Sushi", "Desserts", "Healthy"].map((cat) => (
-                        <Button
-                            key={cat}
-                            variant={params.category === cat ? "default" : "secondary"}
-                            className="rounded-full px-6 font-bold"
-                        >
-                            {cat}
-                        </Button>
-                    ))}
-                </div>
-
-                {/* Results */}
+                {/* Results Grid */}
                 {hasError ? (
-                    <div className="text-center py-20 bg-card rounded-3xl border border-dashed border-destructive/20">
-                        <p className="text-destructive text-xl font-bold">{hasError}</p>
+                    <div className="flex flex-col items-center justify-center py-32 bg-card/50 backdrop-blur-xl rounded-[40px] border-2 border-dashed border-destructive/20 text-center px-6">
+                        <div className="p-4 bg-destructive/10 rounded-full mb-6">
+                            <X className="h-10 w-10 text-destructive" />
+                        </div>
+                        <h3 className="text-2xl font-black uppercase italic tracking-tighter mb-2">Sync Error</h3>
+                        <p className="text-muted-foreground font-medium max-w-sm lowercase">{hasError}</p>
                     </div>
                 ) : meals.length === 0 ? (
-                    <div className="text-center py-24 bg-card rounded-3xl border border-dashed border-zinc-200">
-                        <p className="text-2xl font-black mb-2 tracking-tight">No meals found</p>
-                        <p className="text-muted-foreground">
+                    <div className="flex flex-col items-center justify-center py-32 bg-card/50 backdrop-blur-xl rounded-[40px] border-2 border-dashed border-zinc-200 text-center px-6">
+                        <div className="p-4 bg-zinc-100 rounded-full mb-6 italic font-black text-2xl">
+                            Ø
+                        </div>
+                        <h3 className="text-2xl font-black uppercase italic tracking-tighter mb-2">No Matches Found</h3>
+                        <p className="text-muted-foreground font-medium max-w-sm lowercase">
                             {params.search
-                                ? `We couldn't find anything matching "${params.search}".`
-                                : "There are no meals available in this category yet."}
+                                ? `The culinary architect could not find "${params.search}" in the current matrix.`
+                                : "Empty sector. No meals currently available in this frequency."}
                         </p>
+                        <Link href="/meals" className="mt-8 underline font-black uppercase text-[10px] tracking-widest">Reset Viewport</Link>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                        {meals.map((meal: any, index: number) => (
-                            <div
-                                key={meal.id}
-                                className="animate-fade-in-up"
-                                style={{ animationDelay: `${index * 0.05}s` }}
-                            >
-                                <FoodCard meal={meal} />
-                            </div>
-                        ))}
+                    <div className="space-y-8">
+                        <div className="flex items-center gap-4">
+                            <span className="h-[2px] w-12 bg-primary"></span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                Viewing {meals.length} exquisite selections
+                            </span>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
+                            {meals.map((meal: any, index: number) => (
+                                <div
+                                    key={meal.id}
+                                    className="animate-fade-in-up"
+                                    style={{ animationDelay: `${index * 0.05}s` }}
+                                >
+                                    <FoodCard meal={meal} />
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Pagination Placeholder */}
+                        <div className="flex justify-center pt-20">
+                            <Button variant="outline" className="rounded-2xl border-2 px-10 h-14 font-black uppercase italic tracking-tighter hover:bg-black hover:text-white transition-all">
+                                Load Final Courses
+                            </Button>
+                        </div>
                     </div>
                 )}
             </div>

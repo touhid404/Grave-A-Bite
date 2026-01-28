@@ -1,21 +1,31 @@
 import { prisma } from "../../lib/prisma";
 
 const getAllMeals = async (filters: {
-    cuisine?: string;
+    category?: string;
     dietary?: string;
     minPrice?: string;
     maxPrice?: string;
+    search?: string;
+    page?: string;
+    limit?: string;
 }) => {
-    const { cuisine, dietary, minPrice, maxPrice } = filters;
+    const { category, dietary, minPrice, maxPrice, search, page, limit } = filters;
 
     const where: any = {
         isAvailable: true,
     };
 
-    if (cuisine) {
+    if (search) {
+        where.OR = [
+            { name: { contains: search, mode: 'insensitive' } },
+            { description: { contains: search, mode: 'insensitive' } },
+        ];
+    }
+
+    if (category) {
         where.category = {
             name: {
-                contains: cuisine,
+                contains: category,
                 mode: 'insensitive',
             },
         };
@@ -33,12 +43,18 @@ const getAllMeals = async (filters: {
         if (maxPrice) where.price.lte = parseFloat(maxPrice);
     }
 
+    const pageNumber = page ? parseInt(page) : 1;
+    const limitNumber = limit ? parseInt(limit) : 100;
+    const skip = (pageNumber - 1) * limitNumber;
+
     return await prisma.meal.findMany({
         where,
         include: {
             provider: true,
             category: true,
         },
+        skip,
+        take: limitNumber,
     });
 };
 

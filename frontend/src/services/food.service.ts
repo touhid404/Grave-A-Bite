@@ -15,6 +15,7 @@ interface GetMealsParams {
   limit?: string;
   minPrice?: number;
   maxPrice?: number;
+  dietary?: string;
 }
 
 export const foodService = {

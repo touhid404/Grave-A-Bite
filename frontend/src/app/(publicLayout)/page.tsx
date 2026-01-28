@@ -70,7 +70,7 @@ export default async function Home() {
       </section>
 
       <HowItWorks />
-      <JoinCommunity/>
+      {/* <JoinCommunity/> */}
 
 
       <NewsletterFooter />

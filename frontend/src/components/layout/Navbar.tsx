@@ -141,8 +141,8 @@ const Navbar = ({
 
   return (
     <section className={cn(
-      "fixed top-0 left-0 right-0 z-40 transition-all duration-500 py-2.5",
-      scrolled ? "bg-background/40 backdrop-blur-2xl border-b border-border/40 shadow-sm py-2" : "bg-transparent",
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-2",
+      scrolled ? "bg-background/60 backdrop-blur-3xl border-b border-border/40 shadow-sm py-1.5" : "bg-transparent",
       className
     )}>
       <div className="container mx-auto px-4 max-w-7xl">
