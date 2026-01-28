@@ -29,11 +29,12 @@ interface MealModalProps {
 export function MealModal({ onAdd, onUpdate, meal, categories, trigger }: MealModalProps) {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(meal?.image || null);
     const [formData, setFormData] = useState({
         name: meal?.name || "",
         description: meal?.description || "",
         price: meal?.price || "",
-        image: meal?.image || "",
         categoryId: meal?.categoryId || "",
         dietary: meal?.dietary?.join(", ") || ""
     });
@@ -47,12 +48,24 @@ export function MealModal({ onAdd, onUpdate, meal, categories, trigger }: MealMo
                 name: meal.name,
                 description: meal.description || "",
                 price: meal.price,
-                image: meal.image || "",
                 categoryId: meal.categoryId,
                 dietary: meal.dietary?.join(", ") || ""
             });
+            setImagePreview(meal.image || null);
         }
     }, [meal]);
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -63,17 +76,24 @@ export function MealModal({ onAdd, onUpdate, meal, categories, trigger }: MealMo
 
         setLoading(true);
         try {
-            const payload = {
-                ...formData,
-                price: parseFloat(formData.price.toString()),
-                dietary: formData.dietary ? formData.dietary.split(",").map((s: string) => s.trim()) : []
-            };
+            const data = new FormData();
+            data.append("name", formData.name);
+            data.append("description", formData.description);
+            data.append("price", formData.price.toString());
+            data.append("categoryId", formData.categoryId);
+
+            const dietaryArray = formData.dietary ? formData.dietary.split(",").map((s: string) => s.trim()) : [];
+            dietaryArray.forEach((tag: string) => data.append("dietary[]", tag));
+
+            if (imageFile) {
+                data.append("image", imageFile);
+            }
 
             let result;
             if (isEdit && onUpdate) {
-                result = await onUpdate(meal.id, payload);
+                result = await onUpdate(meal.id, data);
             } else if (onAdd) {
-                result = await onAdd(payload);
+                result = await onAdd(data);
             }
 
             const { error } = result || {};
@@ -81,7 +101,11 @@ export function MealModal({ onAdd, onUpdate, meal, categories, trigger }: MealMo
                 toast.error(error.message);
             } else {
                 toast.success(isEdit ? "Meal updated successfully" : "Meal added successfully");
-                if (!isEdit) setFormData({ name: "", description: "", price: "", image: "", categoryId: "", dietary: "" });
+                if (!isEdit) {
+                    setFormData({ name: "", description: "", price: "", categoryId: "", dietary: "" });
+                    setImageFile(null);
+                    setImagePreview(null);
+                }
                 setOpen(false);
                 router.refresh();
             }
@@ -114,6 +138,32 @@ export function MealModal({ onAdd, onUpdate, meal, categories, trigger }: MealMo
                     </SheetHeader>
 
                     <div className="space-y-6 flex-1 pr-2">
+                        {/* Image Preview / Upload Section */}
+                        <div className="space-y-4">
+                            <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Meal Visual</Label>
+                            <div className="relative group overflow-hidden rounded-2xl aspect-video bg-muted/50 border-2 border-dashed border-border/50 flex items-center justify-center transition-all hover:border-primary/50">
+                                {imagePreview ? (
+                                    <>
+                                        <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <p className="text-white font-black text-[10px] uppercase tracking-widest">Change Image</p>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="text-center p-6">
+                                        <Plus className="h-8 w-8 mx-auto mb-2 text-muted-foreground opacity-20" />
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Select a high-res image</p>
+                                    </div>
+                                )}
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    className="absolute inset-0 opacity-0 cursor-pointer"
+                                />
+                            </div>
+                        </div>
+
                         <div className="space-y-2">
                             <Label htmlFor="name" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Meal Name</Label>
                             <Input
@@ -154,17 +204,6 @@ export function MealModal({ onAdd, onUpdate, meal, categories, trigger }: MealMo
                                     ))}
                                 </select>
                             </div>
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="image" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Image URL (Optional)</Label>
-                            <Input
-                                id="image"
-                                value={formData.image}
-                                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                                placeholder="https://images.unsplash.com/..."
-                                className="rounded-xl border-border/50 bg-background/50 focus:ring-primary h-12 font-bold"
-                            />
                         </div>
 
                         <div className="space-y-2">

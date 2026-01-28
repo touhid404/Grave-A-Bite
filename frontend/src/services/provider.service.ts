@@ -19,16 +19,15 @@ export const providerService = {
         }
     },
 
-    addMeal: async function (mealData: any) {
+    addMeal: async function (mealData: FormData) {
         try {
             const cookieStore = await cookies();
             const res = await fetch(`${API_URL}/provider-management/meals`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
                     Cookie: cookieStore.toString(),
                 },
-                body: JSON.stringify(mealData),
+                body: mealData,
             });
             const data = await res.json();
             if (!res.ok || !data.success) {
@@ -40,16 +39,15 @@ export const providerService = {
         }
     },
 
-    updateMeal: async function (id: string, mealData: any) {
+    updateMeal: async function (id: string, mealData: FormData) {
         try {
             const cookieStore = await cookies();
             const res = await fetch(`${API_URL}/provider-management/meals/${id}`, {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json",
                     Cookie: cookieStore.toString(),
                 },
-                body: JSON.stringify(mealData),
+                body: mealData,
             });
             const data = await res.json();
             if (!res.ok || !data.success) {

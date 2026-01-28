@@ -28,14 +28,27 @@ interface CategoryModalProps {
 export function CategoryModal({ onAdd, onUpdate, category, trigger }: CategoryModalProps) {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(category?.image || null);
     const [formData, setFormData] = useState({
         name: category?.name || "",
-        description: category?.description || "",
-        image: category?.image || ""
+        description: category?.description || ""
     });
     const router = useRouter();
 
     const isEdit = !!category;
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -43,11 +56,18 @@ export function CategoryModal({ onAdd, onUpdate, category, trigger }: CategoryMo
 
         setLoading(true);
         try {
+            const data = new FormData();
+            data.append("name", formData.name);
+            data.append("description", formData.description);
+            if (imageFile) {
+                data.append("image", imageFile);
+            }
+
             let result;
             if (isEdit && onUpdate) {
-                result = await onUpdate(category.id, formData);
+                result = await onUpdate(category.id, data);
             } else if (onAdd) {
-                result = await onAdd(formData);
+                result = await onAdd(data);
             }
 
             const { error } = result || {};
@@ -55,7 +75,11 @@ export function CategoryModal({ onAdd, onUpdate, category, trigger }: CategoryMo
                 toast.error(error.message);
             } else {
                 toast.success(isEdit ? "Category updated successfully" : "Category added successfully");
-                if (!isEdit) setFormData({ name: "", description: "", image: "" });
+                if (!isEdit) {
+                    setFormData({ name: "", description: "" });
+                    setImageFile(null);
+                    setImagePreview(null);
+                }
                 setOpen(false);
                 router.refresh();
             }
@@ -76,7 +100,7 @@ export function CategoryModal({ onAdd, onUpdate, category, trigger }: CategoryMo
                     </Button>
                 )}
             </SheetTrigger>
-            <SheetContent className="sm:max-w-[425px] rounded-l-3xl border-border/50 bg-card/80 backdrop-blur-2xl p-8">
+            <SheetContent className="sm:max-w-[425px] rounded-l-3xl border-border/50 bg-card/80 backdrop-blur-2xl p-8 overflow-y-auto">
                 <form onSubmit={handleSubmit} className="h-full flex flex-col">
                     <SheetHeader className="mb-8">
                         <SheetTitle className="text-2xl font-black uppercase italic tracking-tighter">
@@ -87,6 +111,32 @@ export function CategoryModal({ onAdd, onUpdate, category, trigger }: CategoryMo
                         </SheetDescription>
                     </SheetHeader>
                     <div className="space-y-6 flex-1">
+                        {/* Image Preview / Upload Section */}
+                        <div className="space-y-4">
+                            <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Category Icon</Label>
+                            <div className="relative group overflow-hidden rounded-2xl aspect-square bg-muted/50 border-2 border-dashed border-border/50 flex items-center justify-center transition-all hover:border-primary/50">
+                                {imagePreview ? (
+                                    <>
+                                        <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <p className="text-white font-black text-[10px] uppercase tracking-widest text-center">Change Icon</p>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="text-center p-6">
+                                        <Plus className="h-8 w-8 mx-auto mb-2 text-muted-foreground opacity-20" />
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Upload Icon</p>
+                                    </div>
+                                )}
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    className="absolute inset-0 opacity-0 cursor-pointer"
+                                />
+                            </div>
+                        </div>
+
                         <div className="space-y-2">
                             <Label htmlFor="name" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Category Name</Label>
                             <Input
@@ -94,16 +144,6 @@ export function CategoryModal({ onAdd, onUpdate, category, trigger }: CategoryMo
                                 value={formData.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 placeholder="e.g. Italian Classics"
-                                className="rounded-xl border-border/50 bg-background/50 focus:ring-primary h-12 font-bold"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="image" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Image URL (Optional)</Label>
-                            <Input
-                                id="image"
-                                value={formData.image}
-                                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                                placeholder="https://..."
                                 className="rounded-xl border-border/50 bg-background/50 focus:ring-primary h-12 font-bold"
                             />
                         </div>

@@ -1,49 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
-import { customerService } from "./services/customer.service";
 import { Roles } from "./constants/roles";
+import { customerService } from "./services/customer.service";
 
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   let isAuthenticated = false;
-  let userRole: string | null = null;
+  let isAdmin = false;
+  let isProvider = false;
 
   const { data } = await customerService.getSession();
 
-  if (data?.user) {
+  if (data) {
     isAuthenticated = true;
-    userRole = data.user.role;
+    isAdmin = data.user.role === Roles.admin;
+    isProvider = data.user.role === Roles.provider;
   }
 
-  //* User is not authenticated at all
+  //* User in not authenticated at all
   if (!isAuthenticated) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  //* Route protection based on user role
-  const isAdminRoute = pathname.startsWith("/admin-dashboard");
-  const isProviderRoute = pathname.startsWith("/provider-dashboard");
-  const isCustomerRoute = pathname.startsWith("/dashboard");
+  //* User is authenticated and role = ADMIN
+  if (isAdmin && pathname.startsWith("/dashboard")) {
+    return NextResponse.redirect(new URL("/admin-dashboard", request.url));
+  }
+  
 
-  //* ADMIN can only access admin-dashboard
-  if (userRole === Roles.admin) {
-    if (isProviderRoute || isCustomerRoute) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
+  // Only provider can go 
+  if(isProvider && pathname.startsWith("/dashboard")){
+    return NextResponse.redirect(new URL("/provider-dashboard", request.url));
   }
 
-  //* PROVIDER can only access provider-dashboard
-  if (userRole === Roles.provider) {
-    if (isAdminRoute || isCustomerRoute) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
+  //* User is authenticated and role = USER
+  //* User can not visit admin-dashboard
+  if (!isAdmin && !isProvider && pathname.startsWith("/admin-dashboard")) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  //* CUSTOMER can only access dashboard
-  if (userRole === Roles.customer) {
-    if (isAdminRoute || isProviderRoute) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
+  //* User is authenticated and role = USER
+  //* User can not visit provider-dashboard
+  if (!isAdmin && !isProvider && pathname.startsWith("/provider-dashboard")) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   return NextResponse.next();
@@ -57,5 +56,6 @@ export const config = {
     "/admin-dashboard/:path*",
     "/provider-dashboard",
     "/provider-dashboard/:path*",
+
   ],
 };

@@ -3,6 +3,10 @@ import { cookies } from "next/headers";
 
 const API_URL = env.API_URL;
 
+interface categoryType {
+
+}
+
 export const adminService = {
     getAllUsers: async function () {
         try {
@@ -54,16 +58,15 @@ export const adminService = {
         }
     },
 
-    addCategory: async function (categoryData: any) {
+    addCategory: async function (categoryData: FormData) {
         try {
             const cookieStore = await cookies();
             const res = await fetch(`${API_URL}/admin/categories`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
                     Cookie: cookieStore.toString(),
                 },
-                body: JSON.stringify(categoryData),
+                body: categoryData,
             });
             const data = await res.json();
             return { data: data, error: null };
@@ -72,16 +75,15 @@ export const adminService = {
         }
     },
 
-    updateCategory: async function (id: string, categoryData: any) {
+    updateCategory: async function (id: string, categoryData: FormData) {
         try {
             const cookieStore = await cookies();
             const res = await fetch(`${API_URL}/admin/categories/${id}`, {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json",
                     Cookie: cookieStore.toString(),
                 },
-                body: JSON.stringify(categoryData),
+                body: categoryData,
             });
             const data = await res.json();
             return { data: data, error: null };

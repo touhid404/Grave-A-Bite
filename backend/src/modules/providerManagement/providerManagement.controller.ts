@@ -5,12 +5,24 @@ import { uploadToCloudinary } from "../../lib/cloudinary";
 const addMeal = async (req: Request, res: Response) => {
     try {
         const userId = req.user?.id as string;
-        let mealData = req.body;
+        let mealData = { ...req.body };
 
         // Handle image upload if file is present
         if (req.file) {
             const uploadResult = await uploadToCloudinary(req.file.buffer, "foodhub/meals");
             mealData.image = uploadResult.url;
+        }
+
+        // Sanitize data from FormData
+        if (mealData.price) {
+            mealData.price = parseFloat(mealData.price);
+        }
+
+        if (mealData['dietary[]']) {
+            mealData.dietary = Array.isArray(mealData['dietary[]'])
+                ? mealData['dietary[]']
+                : [mealData['dietary[]']];
+            delete mealData['dietary[]'];
         }
 
         const meal = await ProviderManagementService.addMeal(userId, mealData);
@@ -30,12 +42,24 @@ const updateMeal = async (req: Request, res: Response) => {
     try {
         const mealId = req.params.id as string;
         const userId = req.user?.id as string;
-        let mealData = req.body;
+        let mealData = { ...req.body };
 
         // Handle image upload if file is present
         if (req.file) {
             const uploadResult = await uploadToCloudinary(req.file.buffer, "foodhub/meals");
             mealData.image = uploadResult.url;
+        }
+
+        // Sanitize data from FormData
+        if (mealData.price) {
+            mealData.price = parseFloat(mealData.price);
+        }
+
+        if (mealData['dietary[]']) {
+            mealData.dietary = Array.isArray(mealData['dietary[]'])
+                ? mealData['dietary[]']
+                : [mealData['dietary[]']];
+            delete mealData['dietary[]'];
         }
 
         const meal = await ProviderManagementService.updateMeal(userId, mealId, mealData);
