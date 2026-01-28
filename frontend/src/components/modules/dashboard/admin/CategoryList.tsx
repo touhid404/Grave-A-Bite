@@ -10,7 +10,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Pencil, Trash2, ImageIcon } from "lucide-react";
+import { Pencil, Trash2, ImageIcon, MoreHorizontal } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -22,8 +22,8 @@ import {
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
 import { CategoryModal } from "./AddCategoryModal";
+import { DeleteConfirmationModal } from "../../common/DeleteConfirmationModal";
 
 interface CategoryListProps {
     categories: any[];
@@ -38,8 +38,6 @@ export function CategoryList({ categories, onDelete, onUpdate }: CategoryListPro
     const router = useRouter();
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this category? This might affect existing meals.")) return;
-
         setLoadingId(id);
         try {
             const { error } = await onDelete(id);
@@ -108,27 +106,16 @@ export function CategoryList({ categories, onDelete, onUpdate }: CategoryListPro
                                                 </Button>
                                             }
                                         />
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" className="h-10 w-10 rounded-xl p-0 hover:bg-primary/20 hover:text-primary transition-all">
-                                                    <MoreHorizontal className="h-5 w-5" />
+                                        <DeleteConfirmationModal
+                                            onConfirm={() => handleDelete(category.id)}
+                                            loading={loadingId === category.id}
+                                            description="This will permanently delete the category. This action might affect existing meals associated with it."
+                                            trigger={
+                                                <Button variant="ghost" className="h-10 w-10 rounded-xl p-0 hover:bg-destructive/20 hover:text-destructive transition-all">
+                                                    <Trash2 className="h-4 w-4" />
                                                 </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end" className="w-56 rounded-2xl border-border/50 bg-card/80 backdrop-blur-2xl p-2">
-                                                <DropdownMenuLabel className="font-black uppercase tracking-tighter text-[10px] text-muted-foreground px-4 py-3">Category Controls</DropdownMenuLabel>
-                                                <DropdownMenuSeparator className="bg-border/50 mx-2" />
-                                                <DropdownMenuItem
-                                                    className="rounded-xl px-4 py-3 focus:bg-destructive/10 focus:text-destructive cursor-pointer transition-colors"
-                                                    onClick={() => handleDelete(category.id)}
-                                                    disabled={loadingId === category.id}
-                                                >
-                                                    <div className="flex items-center gap-3 font-bold text-xs">
-                                                        <Trash2 className="h-4 w-4" />
-                                                        DELETE PERMANENTLY
-                                                    </div>
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+                                            }
+                                        />
                                     </div>
                                 </TableCell>
                             </TableRow>

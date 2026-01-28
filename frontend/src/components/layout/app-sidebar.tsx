@@ -18,6 +18,7 @@ import { providerRoutes } from "@/routes/providerRoutes";
 import { userRoutes } from "@/routes/customerRoutes";
 import { Route } from "@/types";
 import { Roles } from "@/constants/roles";
+import { UtensilsCrossed } from "lucide-react";
 
 export function AppSidebar({
   user,
@@ -44,6 +45,16 @@ export function AppSidebar({
 
   return (
     <Sidebar {...props}>
+      <SidebarHeader className="border-b border-border/50 px-6 py-2 h-12 flex justify-center">
+        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <div className="bg-primary h-9 w-9 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 rotate-3">
+            <UtensilsCrossed className="h-5 w-5 text-black -rotate-3" />
+          </div>
+          <div className="flex flex-col">
+            <span className="font-black text-xl italic tracking-tighter leading-none uppercase">Food<span className="text-primary not-italic">Hub</span></span>
+          </div>
+        </Link>
+      </SidebarHeader>
       <SidebarContent>
         {routes.map((item) => (
           <SidebarGroup key={item.title}>

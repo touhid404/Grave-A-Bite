@@ -100,6 +100,9 @@ export const adminService = {
                 },
             });
             const data = await res.json();
+            if (!res.ok || !data.success) {
+                return { data: null, error: { message: data.message || "Failed to delete category" } };
+            }
             return { data: data, error: null };
         } catch (err) {
             return { data: null, error: { message: "Failed to delete category" } };

@@ -106,9 +106,13 @@ const deleteCategory = async (req: Request, res: Response) => {
             message: "Category deleted successfully",
         });
     } catch (error: any) {
+        let message = error.message;
+        if (error.code === 'P2003') {
+            message = "Cannot delete category because it has associated items (meals). Please delete or move those items first.";
+        }
         res.status(500).json({
             success: false,
-            message: error.message,
+            message: message,
         });
     }
 };
