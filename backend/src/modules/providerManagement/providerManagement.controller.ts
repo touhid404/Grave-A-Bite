@@ -1,10 +1,19 @@
 import { Request, Response } from "express";
 import { ProviderManagementService } from "./providerManagement.service";
+import { uploadToCloudinary } from "../../lib/cloudinary";
 
 const addMeal = async (req: Request, res: Response) => {
     try {
         const userId = req.user?.id as string;
-        const meal = await ProviderManagementService.addMeal(userId, req.body);
+        let mealData = req.body;
+
+        // Handle image upload if file is present
+        if (req.file) {
+            const uploadResult = await uploadToCloudinary(req.file.buffer, "foodhub/meals");
+            mealData.image = uploadResult.url;
+        }
+
+        const meal = await ProviderManagementService.addMeal(userId, mealData);
         res.status(201).json({
             success: true,
             data: meal,
@@ -21,7 +30,15 @@ const updateMeal = async (req: Request, res: Response) => {
     try {
         const mealId = req.params.id as string;
         const userId = req.user?.id as string;
-        const meal = await ProviderManagementService.updateMeal(userId, mealId, req.body);
+        let mealData = req.body;
+
+        // Handle image upload if file is present
+        if (req.file) {
+            const uploadResult = await uploadToCloudinary(req.file.buffer, "foodhub/meals");
+            mealData.image = uploadResult.url;
+        }
+
+        const meal = await ProviderManagementService.updateMeal(userId, mealId, mealData);
         res.status(200).json({
             success: true,
             data: meal,

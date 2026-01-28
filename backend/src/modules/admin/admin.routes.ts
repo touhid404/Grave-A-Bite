@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { AdminController } from "./admin.controller";
 import authMiddleware, { UserRole } from "../../middlewares/authmiddle";
+import { upload } from "../../middlewares/upload";
 
 const router = Router();
 // Manage Users (OK)
@@ -12,8 +13,8 @@ router.post("/make-provider/:customerId", authMiddleware(UserRole.ADMIN), AdminC
 
 // Manage Categories (OK)
 router.get("/categories", authMiddleware(UserRole.ADMIN), AdminController.getAllCategories);
-router.post("/categories", authMiddleware(UserRole.ADMIN), AdminController.addCategory);
-router.put("/categories/:id", authMiddleware(UserRole.ADMIN), AdminController.updateCategory);
+router.post("/categories", authMiddleware(UserRole.ADMIN), upload.single("image"), AdminController.addCategory);
+router.put("/categories/:id", authMiddleware(UserRole.ADMIN), upload.single("image"), AdminController.updateCategory);
 router.delete("/categories/:id", authMiddleware(UserRole.ADMIN), AdminController.deleteCategory);
 
 // View All Orders

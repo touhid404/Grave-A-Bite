@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { AdminService } from "./admin.service";
+import { uploadToCloudinary } from "../../lib/cloudinary";
 
 const getAllUsers = async (req: Request, res: Response) => {
     try {
@@ -45,7 +46,15 @@ const updateUserStatus = async (req: Request, res: Response) => {
 // Manage Categories
 const addCategory = async (req: Request, res: Response) => {
     try {
-        const category = await AdminService.addCategory(req.body);
+        let categoryData = req.body;
+
+        // Handle image upload if file is present
+        if (req.file) {
+            const uploadResult = await uploadToCloudinary(req.file.buffer, "foodhub/categories");
+            categoryData.image = uploadResult.url;
+        }
+
+        const category = await AdminService.addCategory(categoryData);
         res.status(201).json({
             success: true,
             data: category,
@@ -84,7 +93,15 @@ const getAllCategories = async (req: Request, res: Response) => {
 const updateCategory = async (req: Request, res: Response) => {
     try {
         const categoryId = req.params.id as string;
-        const category = await AdminService.updateCategory(categoryId, req.body);
+        let categoryData = req.body;
+
+        // Handle image upload if file is present
+        if (req.file) {
+            const uploadResult = await uploadToCloudinary(req.file.buffer, "foodhub/categories");
+            categoryData.image = uploadResult.url;
+        }
+
+        const category = await AdminService.updateCategory(categoryId, categoryData);
         res.status(200).json({
             success: true,
             data: category,
