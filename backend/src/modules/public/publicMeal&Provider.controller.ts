@@ -76,9 +76,25 @@ const getProviderById = async (req: Request, res: Response) => {
     }
 };
 
+const getAllCategories = async (req: Request, res: Response) => {
+    try {
+        const categories = await PublicService.getAllCategories();
+        res.status(200).json({
+            success: true,
+            data: categories,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
 export const PublicController = {
     getAllMeals,
     getMealById,
     getAllProviders,
     getProviderById,
+    getAllCategories,
 };

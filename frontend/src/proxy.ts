@@ -6,30 +6,44 @@ export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   let isAuthenticated = false;
-  let isAdmin = false;
+  let userRole: string | null = null;
 
   const { data } = await customerService.getSession();
 
-  if (data) {
+  if (data?.user) {
     isAuthenticated = true;
-    isAdmin = data.user.role === Roles.admin;
+    userRole = data.user.role;
   }
 
-  //* User in not authenticated at all
+  //* User is not authenticated at all
   if (!isAuthenticated) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  //* User is authenticated and role = ADMIN
-  //* User can not visit user dashboard
-  if (isAdmin && pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/admin-dashboard", request.url));
+  //* Route protection based on user role
+  const isAdminRoute = pathname.startsWith("/admin-dashboard");
+  const isProviderRoute = pathname.startsWith("/provider-dashboard");
+  const isCustomerRoute = pathname.startsWith("/dashboard");
+
+  //* ADMIN can only access admin-dashboard
+  if (userRole === Roles.admin) {
+    if (isProviderRoute || isCustomerRoute) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
   }
 
-  //* User is authenticated and role = USER
-  //* User can not visit admin-dashboard
-  if (!isAdmin && pathname.startsWith("/admin-dashboard")) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  //* PROVIDER can only access provider-dashboard
+  if (userRole === Roles.provider) {
+    if (isAdminRoute || isCustomerRoute) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
+  //* CUSTOMER can only access dashboard
+  if (userRole === Roles.customer) {
+    if (isAdminRoute || isProviderRoute) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
   }
 
   return NextResponse.next();
@@ -41,5 +55,7 @@ export const config = {
     "/dashboard/:path*",
     "/admin-dashboard",
     "/admin-dashboard/:path*",
+    "/provider-dashboard",
+    "/provider-dashboard/:path*",
   ],
 };

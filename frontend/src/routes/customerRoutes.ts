@@ -6,15 +6,15 @@ export const userRoutes: Route[] = [
     items: [
       {
         title: "Order History",
-        url: "dashboard/orders",
+        url: "/dashboard/orders",
       },
       {
         title: "My Profile",
-        url: "dashboard/profile",
+        url: "/dashboard/profile",
       },
       {
         title: "Rewards",
-        url: "dashboard/rewards",
+        url: "/dashboard/rewards",
       },
     ],
   },

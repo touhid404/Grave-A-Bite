@@ -121,5 +121,19 @@ export const foodService = {
       return { data: null, error: { message: "Failed to fetch your orders" } };
     }
   },
+
+  getCategories: async function (options?: ServiceOptions) {
+    try {
+      const config: RequestInit = {
+        cache: options?.cache || "default",
+        next: options?.revalidate ? { revalidate: options.revalidate } : { tags: ["categories"] },
+      };
+      const res = await fetch(`${API_URL}/public/categories`, config);
+      const data = await res.json();
+      return { data: data, error: null };
+    } catch (err) {
+      return { data: null, error: { message: "Failed to fetch categories" } };
+    }
+  },
 };
 

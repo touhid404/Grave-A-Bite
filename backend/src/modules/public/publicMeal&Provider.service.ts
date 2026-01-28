@@ -73,9 +73,14 @@ const getProviderById = async (id: string) => {
     });
 };
 
+const getAllCategories = async () => {
+    return await prisma.category.findMany();
+};
+
 export const PublicService = {
     getAllMeals,
     getMealById,
     getAllProviders,
     getProviderById,
+    getAllCategories,
 };
