@@ -9,11 +9,12 @@ import { AdminRoutes } from "./modules/admin/admin.routes";
 import { PublicRoutes } from "./modules/public/publicMeal&Provider.routes";
 import { OrderRoutes } from "./modules/orders/orders.routes";
 import { AuthRoutes } from "./modules/auth/auth.routes";
+import config from "./config";
 
 const app: Application = express();
 
 app.use(cors({
-    origin: process.env.APP_URL,
+    origin: config.app_url,
     credentials: true
 }))
 
