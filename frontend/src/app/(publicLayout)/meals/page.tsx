@@ -5,6 +5,7 @@ import { Search, SlidersHorizontal, Utensils, X, Star, Flame } from "lucide-reac
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import MealsFilter from "@/components/modules/meals/MealsFilter";
+import PaginationControls from "@/components/ui/pagination-controls";
 
 interface MealsPageProps {
     searchParams: Promise<{
@@ -29,12 +30,13 @@ export default async function MealsPage({ searchParams }: MealsPageProps) {
             minPrice: params.minPrice ? parseFloat(params.minPrice) : undefined,
             maxPrice: params.maxPrice ? parseFloat(params.maxPrice) : undefined,
             page: params.page,
-            limit: "12",
+            limit: "8",
         }),
         foodService.getCategories()
     ]);
 
-    const meals = mealsRes.data?.data || [];
+    const meals = mealsRes.data?.data?.data || [];
+    const meta = mealsRes.data?.data?.meta || { limit: 8, page: 1, total: 0, totalPages: 0 };
     const categories = categoriesRes.data?.data || [];
     const hasError = mealsRes.error?.message;
 
@@ -87,11 +89,9 @@ export default async function MealsPage({ searchParams }: MealsPageProps) {
                             ))}
                         </div>
 
-                        {/* Pagination Placeholder */}
-                        <div className="flex justify-center pt-20">
-                            <Button variant="outline" className="rounded-2xl border-2 px-10 h-14 font-black uppercase italic tracking-tighter hover:bg-black hover:text-white transition-all">
-                                Load Final Courses
-                            </Button>
+                        {/* Pagination */}
+                        <div className="flex justify-center pt-10">
+                            <PaginationControls meta={meta} />
                         </div>
                     </div>
                 )}

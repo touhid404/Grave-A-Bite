@@ -47,15 +47,30 @@ const getAllMeals = async (filters: {
     const limitNumber = limit ? parseInt(limit) : 100;
     const skip = (pageNumber - 1) * limitNumber;
 
-    return await prisma.meal.findMany({
-        where,
-        include: {
-            provider: true,
-            category: true,
-        },
-        skip,
-        take: limitNumber,
-    });
+    const [data, total] = await Promise.all([
+        prisma.meal.findMany({
+            where,
+            include: {
+                provider: true,
+                category: true,
+            },
+            skip,
+            take: limitNumber,
+        }),
+        prisma.meal.count({ where })
+    ]);
+
+    const totalPages = Math.ceil(total / limitNumber);
+
+    return {
+        data,
+        meta: {
+            page: pageNumber,
+            limit: limitNumber,
+            total,
+            totalPages
+        }
+    };
 };
 
 const getMealById = async (id: string) => {

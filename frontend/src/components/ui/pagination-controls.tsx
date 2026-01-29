@@ -39,7 +39,7 @@ export default function PaginationControls({ meta }: PaginationControlsProps) {
   const end = Math.min(currentPage * pageSize, total);
 
   return (
-    <div className="flex items-center justify-between px-2 py-4 border-t mt-4">
+    <div className="flex items-center justify-between gap-4 px-2 py-4 border-t">
       <div className="text-sm text-muted-foreground">
         Showing {start} to {end} of {total} results
       </div>

@@ -12,7 +12,6 @@ interface FoodCardProps {
 const FoodCard = ({ meal }: FoodCardProps) => {
     return (
         <Card className="group relative overflow-hidden border border-border/30 bg-card/40 backdrop-blur-xl transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.2)] hover:-translate-y-1.5 rounded-[1.75rem] p-0 gap-0">
-            <div className="absolute inset-0 z-10 pointer-events-none opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] invert" />
 
             <div className="relative aspect-[1.8/1] w-full overflow-hidden">
                 <Image
@@ -51,15 +50,15 @@ const FoodCard = ({ meal }: FoodCardProps) => {
 
             <CardContent className="p-4 relative">
                 <div className="flex justify-between items-start mb-2">
-                    <div className="space-y-0">
-                        <p className="text-[7px] font-black text-primary/60 uppercase tracking-[0.4em]">
-                            {meal.provider?.storeName || "Premium Kitchen"}
-                        </p>
-                        <h3 className="font-black text-lg leading-tight group-hover:text-primary transition-colors uppercase italic tracking-tighter">
+                    <div className="h-[4.5rem] w-[70%]">
+                        <h3 className="font-black text-lg leading-tight group-hover:text-primary transition-colors uppercase italic tracking-tighter line-clamp-2">
                             {meal.name}
                         </h3>
+                        <p className="text-[7px] font-black text-primary/60 uppercase tracking-[0.4em] mt-1">
+                            {meal.provider?.storeName || "Premium Kitchen"}
+                        </p>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right shrink-0 w-[30%]">
                         <span className="font-black text-lg text-primary tracking-tighter italic block leading-none">
                             ${meal.price}
                         </span>
@@ -67,9 +66,11 @@ const FoodCard = ({ meal }: FoodCardProps) => {
                     </div>
                 </div>
 
-                <p className="text-[10px] text-muted-foreground line-clamp-2 mb-3 font-medium leading-relaxed italic opacity-60">
-                    {meal.description || "Indulge in this chef-crafted masterpiece, made with the finest local ingredients."}
-                </p>
+                <div className="h-[2.5rem] mb-3">
+                    <p className="text-[10px] text-muted-foreground line-clamp-2 font-medium leading-relaxed italic opacity-60">
+                        {meal.description || "Indulge in this chef-crafted masterpiece, made with the finest local ingredients."}
+                    </p>
+                </div>
 
                 {/* Dietary Mosaic */}
                 <div className="flex flex-wrap gap-1 mb-1">
@@ -92,7 +93,7 @@ const FoodCard = ({ meal }: FoodCardProps) => {
                     <Plus className="relative z-10 h-3.5 w-3.5 opacity-50 group-hover/btn:rotate-90 transition-transform" />
                 </Button>
             </CardFooter>
-        </Card>
+        </Card >
     );
 };
 

@@ -54,15 +54,28 @@ export default function MealsFilter({ categories, searchParams }: MealsFilterPro
 
             {/* Categories */}
             <div className={cn("w-full transition-all", vertical ? "" : "lg:w-[70%] overflow-x-auto no-scrollbar mask-linear-fade")}>
-                <div className={cn("flex gap-6 px-2", vertical ? "flex-wrap gap-3" : "items-center")}>
-                    <Link href="/meals" className={`text-sm font-bold uppercase tracking-widest transition-colors whitespace-nowrap ${!searchParams.category || searchParams.category === "All" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}>
+                <div className={cn("flex gap-3 px-1", vertical ? "flex-wrap gap-2" : "items-center")}>
+                    <Link
+                        href="/meals"
+                        className={cn(
+                            "inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-bold uppercase tracking-wider transition-all duration-200 border",
+                            !searchParams.category || searchParams.category === "All"
+                                ? "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/25"
+                                : "bg-card text-muted-foreground border-border hover:border-primary/50 hover:bg-card/80 hover:text-foreground"
+                        )}
+                    >
                         All
                     </Link>
                     {categories.map((cat: any) => (
                         <Link
                             key={cat.id}
                             href={`/meals?category=${cat.name}${searchParams.search ? `&search=${searchParams.search}` : ""}`}
-                            className={`text-sm font-bold uppercase tracking-widest transition-colors whitespace-nowrap ${searchParams.category === cat.name ? "text-primary border-b-2 border-primary" : "text-muted-foreground hover:text-foreground"}`}
+                            className={cn(
+                                "inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-bold uppercase tracking-wider transition-all duration-200 border whitespace-nowrap",
+                                searchParams.category === cat.name
+                                    ? "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/25"
+                                    : "bg-card text-muted-foreground border-border hover:border-primary/50 hover:bg-card/80 hover:text-foreground"
+                            )}
                         >
                             {cat.name}
                         </Link>
@@ -73,19 +86,19 @@ export default function MealsFilter({ categories, searchParams }: MealsFilterPro
             {/* Search & Filter */}
             <div className={cn("flex gap-2", vertical ? "w-full pt-4 border-t border-border/50" : "w-full lg:w-[30%] pl-2")}>
                 <div className="relative flex-1 group">
-                    <Search className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                     <form action="/meals" method="GET" className="w-full">
                         <Input
                             name="search"
-                            placeholder="Search..."
+                            placeholder="Search meals..."
                             defaultValue={searchParams.search}
-                            className="pl-8 h-8 rounded-none border-0 border-b border-muted-foreground/20 bg-transparent focus:border-primary px-0 font-medium text-sm w-full focus-visible:ring-0 placeholder:text-muted-foreground/50"
+                            className="pl-10 h-10 rounded-full border-2 border-muted bg-card/50 hover:bg-card transition-all focus:border-primary focus:ring-0 focus:bg-card font-medium text-sm w-full"
                         />
                         {searchParams.category && <input type="hidden" name="category" value={searchParams.category} />}
                     </form>
                 </div>
                 {!vertical && (
-                    <Button size="icon" variant="ghost" className="h-8 w-8 shrink-0 hover:bg-transparent hover:text-primary transition-colors">
+                    <Button size="icon" variant="outline" className="h-10 w-10 shrink-0 rounded-full border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all">
                         <SlidersHorizontal className="h-4 w-4" />
                     </Button>
                 )}
