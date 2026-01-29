@@ -10,7 +10,7 @@ const uploadImage = async (req: Request, res: Response) => {
             });
         }
 
-        const folder = req.query.folder as string || "foodhub/meals";
+        const folder = req.query.folder as string || "grababite/meals";
         const result = await uploadToCloudinary(req.file.buffer, folder);
 
         res.status(200).json({

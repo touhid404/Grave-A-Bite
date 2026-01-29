@@ -32,7 +32,7 @@ app.use("/api/reviews", ReviewRoutes);
 app.use("/api/auth-user-info", AuthRoutes);
 
 app.get("/", (req: Request, res: Response) => {
-    res.send("Hello, From FoodHub Backend");
+    res.send("Hello, From GrabABite Backend");
 });
 app.use(notFound)
 app.use(errorHandler)

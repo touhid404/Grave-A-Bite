@@ -10,7 +10,7 @@ cloudinary.config({
 
 export const uploadToCloudinary = async (
     buffer: Buffer,
-    folder: string = "foodhub"
+    folder: string = "grababite"
 ): Promise<{ url: string; publicId: string }> => {
     console.log(`Cloudinary: Starting upload to folder "${folder}"...`);
     return new Promise((resolve, reject) => {

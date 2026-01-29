@@ -9,7 +9,7 @@ const addMeal = async (req: Request, res: Response) => {
 
         // Handle image upload if file is present
         if (req.file) {
-            const uploadResult = await uploadToCloudinary(req.file.buffer, "foodhub/meals");
+            const uploadResult = await uploadToCloudinary(req.file.buffer, "grababite/meals");
             mealData.image = uploadResult.url;
         }
 
@@ -46,7 +46,7 @@ const updateMeal = async (req: Request, res: Response) => {
 
         // Handle image upload if file is present
         if (req.file) {
-            const uploadResult = await uploadToCloudinary(req.file.buffer, "foodhub/meals");
+            const uploadResult = await uploadToCloudinary(req.file.buffer, "grababite/meals");
             mealData.image = uploadResult.url;
         }
 
@@ -196,7 +196,7 @@ const updateProfile = async (req: Request, res: Response) => {
         let profileData = { ...req.body };
 
         if (req.file) {
-            const uploadResult = await uploadToCloudinary(req.file.buffer, "foodhub/providers");
+            const uploadResult = await uploadToCloudinary(req.file.buffer, "grababite/providers");
             profileData.logo = uploadResult.url;
         }
 
