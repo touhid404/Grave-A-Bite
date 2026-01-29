@@ -50,7 +50,7 @@ export const foodService = {
 
   getMealById: async function (id: string) {
     try {
-      const res = await fetch(`${API_URL}/meals/${id}`);
+      const res = await fetch(`${API_URL}/public/meals/${id}`);
       const data = await res.json();
       return { data: data, error: null };
     } catch (err) {
@@ -99,7 +99,7 @@ export const foodService = {
         return { data: null, error: { message: data.message || "Order creation failed" } };
       }
 
-      return { data: data, error: null };
+      return { data: data.data, error: null };
     } catch (err) {
       return { data: null, error: { message: "Something went wrong during checkout" } };
     }

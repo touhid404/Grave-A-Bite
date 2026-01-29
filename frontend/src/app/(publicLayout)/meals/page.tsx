@@ -41,7 +41,7 @@ export default async function MealsPage({ searchParams }: MealsPageProps) {
     const hasError = mealsRes.error?.message;
 
     return (
-        <div className="min-h-screen pt-24 pb-16 mx-5">
+        <div className="min-h-screen pt-24 pb-16 mx-5 md:mx-10">
             <div className="container mx-auto px-4">
 
                 {/* Dynamic Filter Component */}

@@ -34,6 +34,7 @@ import { ModeToggle } from "./ModeToggle";
 import { authClient } from "@/lib/auth-client";
 import { useRouter, usePathname } from "next/navigation";
 import { toast } from "sonner";
+import CartSheet from "../modules/cart/CartSheet";
 
 interface MenuItem {
   title: string;
@@ -75,6 +76,7 @@ const Navbar = ({
   menu = [
     { title: "Home", url: "/" },
     { title: "Meals", url: "/meals" },
+    { title: "Providers", url: "/providers" },
     { title: "Dashboard", url: "/dashboard" },
   ],
   auth = {
@@ -167,6 +169,7 @@ const Navbar = ({
             </div>
           </div>
           <div className="flex gap-3 items-center">
+            <CartSheet />
             <ModeToggle />
             {isPending ? (
               <div className="h-8 w-16 animate-pulse bg-muted rounded-md" />
@@ -231,6 +234,7 @@ const Navbar = ({
               </span>
             </Link>
             <div className="flex items-center gap-2">
+              <CartSheet />
               <ModeToggle />
               {session?.user && (
                 <Avatar className="h-8 w-8">

@@ -13,7 +13,9 @@ const createOrder = async (userId: string, orderData: {
 }) => {
     const { deliveryAddress, deliveryPhone, notes, items } = orderData;
 
-    const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const deliveryFee = 50;
+    const totalAmount = subtotal + deliveryFee;
 
     return await prisma.$transaction(async (tx) => {
         const order = await tx.order.create({

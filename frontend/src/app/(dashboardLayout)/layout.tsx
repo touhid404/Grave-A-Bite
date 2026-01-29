@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Roles } from "@/constants/roles";
 import { customerService } from "@/services/customer.service";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +30,10 @@ export default async function DashboardLayout({
   provider: React.ReactNode;
 }) {
   const { data } = await customerService.getSession();
+
+  if (!data?.user) {
+    redirect("/login?callbackUrl=/dashboard");
+  }
 
   const userInfo = data.user;
 

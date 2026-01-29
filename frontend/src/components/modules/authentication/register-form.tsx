@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { useForm } from "@tanstack/react-form";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -33,12 +33,14 @@ const formSchema = z.object({
 
 export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   const [emailSent, setEmailSent] = React.useState(false);
 
   const handleGoogleLogin = async () => {
-    const data = authClient.signIn.social({
+    await authClient.signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:3000",
+      callbackURL: callbackUrl,
     });
   };
 
@@ -92,7 +94,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
           <Button
             variant="outline"
             className="w-full h-12 rounded-2xl border-2 border-border/50 font-black hover:bg-muted transition-all uppercase text-xs tracking-wider flex gap-2"
-            onClick={() => router.push("/login")}
+            onClick={() => router.push(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`)}
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Login
@@ -222,7 +224,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
         </Button>
         <p className="text-[11px] text-center text-muted-foreground mt-0 font-medium">
           Member?{" "}
-          <Link href="/login" className="text-primary font-black hover:underline italic uppercase tracking-tighter">
+          <Link href={`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`} className="text-primary font-black hover:underline italic uppercase tracking-tighter">
             Login
           </Link>
         </p>
