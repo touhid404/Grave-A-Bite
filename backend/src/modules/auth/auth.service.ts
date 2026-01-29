@@ -6,6 +6,18 @@ const findById = async (id: string) => {
     });
 };
 
+const updateProfile = async (id: string, updateData: {
+    name?: string;
+    phone?: string;
+    image?: string;
+}) => {
+    return await prisma.user.update({
+        where: { id },
+        data: updateData,
+    });
+};
+
 export const AuthService = {
-    findById
+    findById,
+    updateProfile
 };

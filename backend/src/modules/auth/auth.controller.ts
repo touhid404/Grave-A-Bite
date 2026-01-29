@@ -29,6 +29,32 @@ const getUserProfileById = async (req: Request, res: Response) => {
     }
 };
 
+const updateProfile = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.id as string;
+        const { name, phone } = req.body;
+        const image = req.file?.path; // If using multer for file upload
+
+        const updateData: any = {};
+        if (name) updateData.name = name;
+        if (phone) updateData.phone = phone;
+        if (image) updateData.image = image;
+
+        const updatedUser = await AuthService.updateProfile(userId, updateData);
+
+        res.status(200).json({
+            success: true,
+            data: updatedUser,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
 export const AuthController = {
-    getUserProfileById
+    getUserProfileById,
+    updateProfile
 };

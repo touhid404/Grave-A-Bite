@@ -9,6 +9,7 @@ import { AdminRoutes } from "./modules/admin/admin.routes";
 import { PublicRoutes } from "./modules/public/publicMeal&Provider.routes";
 import { OrderRoutes } from "./modules/orders/orders.routes";
 import { AuthRoutes } from "./modules/auth/auth.routes";
+import { ReviewRoutes } from "./modules/reviews/reviews.routes";
 import config from "./config";
 
 const app: Application = express();
@@ -27,6 +28,7 @@ app.use("/api/public", PublicRoutes);
 app.use("/api/provider-management", ProviderManagementRoutes);
 app.use("/api/admin", AdminRoutes);
 app.use("/api/orders", OrderRoutes);
+app.use("/api/reviews", ReviewRoutes);
 app.use("/api/auth-user-info", AuthRoutes);
 
 app.get("/", (req: Request, res: Response) => {
