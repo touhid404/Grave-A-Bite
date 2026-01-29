@@ -11,8 +11,8 @@ export default async function ProvidersPage() {
     const error = response.error;
 
     return (
-        <div className="min-h-screen bg-background pt-32 pb-24 mx-10">
-            <div className="container mx-auto px-4">
+        <div className="min-h-screen bg-background pt-32">
+            <div className="container mx-auto px-4 mx-10">
                 <div className="text-center max-w-2xl mx-auto mb-20">
                     <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter uppercase italic">
                         Our <span className="text-primary transparent-text-outline">Partners</span>

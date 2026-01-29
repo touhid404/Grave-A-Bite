@@ -40,10 +40,10 @@ export default function MealDetailClient({ meal }: MealDetailClientProps) {
 
     return (
         <div className="min-h-screen bg-background">
-            <div className="container mx-auto px-4 pt-32 pb-24">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+            <div className="container mx-auto px-4 pt-24 pb-16">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
                     {/* Image Section */}
-                    <div className="relative h-[400px] md:h-[600px] rounded-3xl overflow-hidden shadow-2xl group border border-border/50">
+                    <div className="relative h-[300px] md:h-[450px] rounded-3xl overflow-hidden shadow-2xl group border border-border/50">
                         <Image
                             src={meal.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1000&q=80"}
                             fill
@@ -64,7 +64,7 @@ export default function MealDetailClient({ meal }: MealDetailClientProps) {
                         </div>
 
                         <div className="absolute bottom-6 left-6 right-6">
-                            <h1 className="text-4xl md:text-5xl font-black mb-2 tracking-tighter uppercase italic text-white drop-shadow-2xl">
+                            <h1 className="text-3xl md:text-4xl font-black mb-1.5 tracking-tighter uppercase italic text-white drop-shadow-2xl">
                                 {meal.name}
                             </h1>
                             <div className="flex items-center gap-2 text-white/90">
@@ -77,7 +77,7 @@ export default function MealDetailClient({ meal }: MealDetailClientProps) {
                     </div>
 
                     {/* Content Section */}
-                    <div className="flex flex-col justify-center space-y-8 mx-5">
+                    <div className="flex flex-col justify-center space-y-6">
                         {/* Provider Info Card */}
                         <Link
                             href={`/providers/${meal.providerId}`}
@@ -132,16 +132,16 @@ export default function MealDetailClient({ meal }: MealDetailClientProps) {
                             )}
                         </div>
 
-                        <div className="flex flex-col gap-6 pt-6 border-t border-border/50">
-                            <div className="flex flex-col sm:flex-row items-center gap-6">
-                                <div className="flex flex-col">
-                                    <span className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Total Price</span>
-                                    <div className="text-5xl font-black text-primary tracking-tighter">
+                        <div className="flex flex-col gap-4 pt-6 border-t border-border/50">
+                            <div className="flex flex-col sm:flex-row items-center gap-4">
+                                <div className="flex flex-col w-full sm:w-auto">
+                                    <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1">Total Price</span>
+                                    <div className="text-4xl font-black text-primary tracking-tighter">
                                         {formatCurrency(meal.price * quantity)}
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-4 bg-card border-2 border-border/50 rounded-2xl p-2 ml-auto">
+                                <div className="flex items-center gap-4 bg-card border-2 border-border/50 rounded-2xl p-1.5 w-full sm:w-auto justify-between sm:justify-start sm:ml-auto">
                                     <Button
                                         variant="ghost"
                                         size="icon"
@@ -165,11 +165,11 @@ export default function MealDetailClient({ meal }: MealDetailClientProps) {
 
                             <Button
                                 size="lg"
-                                className="h-16 rounded-2xl bg-primary text-black text-xl font-black hover:scale-[1.02] transition-transform w-full shadow-xl shadow-primary/20 gap-3"
+                                className="h-14 rounded-2xl bg-primary text-black text-lg font-black hover:scale-[1.01] transition-transform w-full shadow-xl shadow-primary/20 gap-3"
                                 onClick={handleAddToCart}
                                 disabled={!meal.isAvailable}
                             >
-                                <ShoppingCart className="h-6 w-6" />
+                                <ShoppingCart className="h-5 w-5" />
                                 {meal.isAvailable ? "Add to Cart" : "Unavailable"}
                             </Button>
                         </div>

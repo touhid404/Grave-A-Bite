@@ -13,7 +13,7 @@ const Hero = () => {
             </div>
 
             <div className="container relative z-10 px-4 mx-auto max-w-7xl">
-                <div className="grid lg:grid-cols-12 gap-6 items-center">
+                <div className="grid lg:grid-cols-12 gap-12 lg:gap-6 items-center">
 
                     <div className="lg:col-span-7 space-y-8 animate-fade-in-up">
                         <div className="inline-flex items-center gap-3 group cursor-default">
@@ -21,7 +21,7 @@ const Hero = () => {
                             <span className="text-[9px] font-black uppercase tracking-[0.6em] text-primary/60 italic">Established 2026</span>
                         </div>
 
-                        <h1 className="text-6xl md:text-[7rem] font-black tracking-tighter leading-[0.8] uppercase italic">
+                        <h1 className="text-4xl sm:text-6xl lg:text-[7rem] font-black tracking-tighter leading-[0.9] sm:leading-[0.8] uppercase italic">
                             REDEFINING <br />
                             <span className="relative inline-block">
                                 <span className="text-primary italic">LOCAL</span>
@@ -36,10 +36,10 @@ const Hero = () => {
                             </p>
 
                             <div className="md:col-span-2 flex flex-col gap-4">
-                                <Button asChild size="lg" className="h-20 px-10 text-2xl font-black rounded-[2rem] bg-primary text-black hover:bg-white transition-all active:scale-95 shadow-[0_20px_50px_-15px_rgba(212,255,51,0.4)] uppercase italic tracking-tighter group">
+                                <Button asChild size="lg" className="h-16 md:h-20 px-8 md:px-10 text-xl md:text-2xl font-black rounded-2xl md:rounded-[2rem] bg-primary text-black hover:bg-white transition-all active:scale-95 shadow-[0_20px_50px_-15px_rgba(212,255,51,0.4)] uppercase italic tracking-tighter group">
                                     <Link href="/meals" className="flex items-center gap-3">
                                         Explore
-                                        <ArrowRight className="h-8 w-8 group-hover:translate-x-2 transition-transform" />
+                                        <ArrowRight className="h-6 w-6 md:h-8 md:w-8 group-hover:translate-x-2 transition-transform" />
                                     </Link>
                                 </Button>
                                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-center opacity-40">15,000+ members</p>
@@ -60,8 +60,8 @@ const Hero = () => {
                         </div>
                     </div>
 
-                    <div className="lg:col-span-5 relative mt-12 lg:mt-0 flex justify-center">
-                        <div className="relative w-full max-w-[400px] aspect-[4/5] rounded-[3.5rem] overflow-hidden border-[12px] border-background shadow-2xl skew-x-[-1deg] hover:skew-x-0 transition-all duration-1000 group">
+                    <div className="lg:col-span-5 relative mt-8 lg:mt-0 flex justify-center">
+                        <div className="relative w-full max-w-[320px] sm:max-w-[400px] aspect-[4/5] rounded-[2.5rem] sm:rounded-[3.5rem] overflow-hidden border-[8px] sm:border-[12px] border-background shadow-2xl skew-x-[-1deg] hover:skew-x-0 transition-all duration-1000 group">
                             <Image
                                 src="/heroMain.png"
                                 alt="Gourmet Experience"
