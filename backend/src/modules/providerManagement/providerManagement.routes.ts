@@ -10,6 +10,7 @@ router.put("/meals/:id", authMiddleware(UserRole.PROVIDER), upload.single("image
 router.delete("/meals/:id", authMiddleware(UserRole.PROVIDER), ProviderManagementController.deleteMeal);
 router.get("/meals", authMiddleware(UserRole.PROVIDER), ProviderManagementController.getProviderMeals);
 router.get("/orders", authMiddleware(UserRole.PROVIDER), ProviderManagementController.getProviderOrders);
+router.get("/orders/:id", authMiddleware(UserRole.PROVIDER), ProviderManagementController.getOrderById);
 router.patch("/orders/:id", authMiddleware(UserRole.PROVIDER), ProviderManagementController.updateOrderStatus);
 
 // Profile Settings

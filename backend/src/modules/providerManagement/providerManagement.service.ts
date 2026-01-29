@@ -106,6 +106,32 @@ const getProviderOrders = async (userId: string) => {
     });
 };
 
+const getOrderById = async (userId: string, orderId: string) => {
+    const provider = await prisma.providerProfile.findUnique({
+        where: { userId },
+    });
+
+    if (!provider) {
+        throw new Error("Provider profile not found");
+    }
+
+    return await prisma.order.findUnique({
+        where: { id: orderId },
+        include: {
+            orderItems: {
+                where: {
+                    meal: {
+                        providerId: provider.id,
+                    },
+                },
+                include: {
+                    meal: true,
+                },
+            },
+        },
+    });
+};
+
 const getProviderMeals = async (userId: string) => {
     const provider = await prisma.providerProfile.findUnique({
         where: { userId },
@@ -141,6 +167,7 @@ export const ProviderManagementService = {
     deleteMeal,
     updateOrderStatus,
     getProviderOrders,
+    getOrderById,
     getProviderMeals,
     getProfile,
     updateProfile,

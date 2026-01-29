@@ -133,6 +133,31 @@ const getProviderOrders = async (req: Request, res: Response) => {
     }
 };
 
+const getOrderById = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.id as string;
+        const orderId = req.params.id as string;
+        const order = await ProviderManagementService.getOrderById(userId, orderId);
+
+        if (!order) {
+            return res.status(404).json({
+                success: false,
+                message: "Order not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: order,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
 const getProviderMeals = async (req: Request, res: Response) => {
     try {
         const userId = req.user?.id as string;
@@ -194,6 +219,7 @@ export const ProviderManagementController = {
     deleteMeal,
     updateOrderStatus,
     getProviderOrders,
+    getOrderById,
     getProviderMeals,
     getProfile,
     updateProfile,
