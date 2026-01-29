@@ -195,13 +195,6 @@ const Navbar = ({
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/dashboard" className="cursor-pointer">
-                      <User className="mr-2 h-4 w-4" />
-                      Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive">
                     <LogOut className="mr-2 h-4 w-4" />
                     Log out
@@ -287,9 +280,6 @@ const Navbar = ({
                               <span className="text-xs text-muted-foreground">{session.user.email}</span>
                             </div>
                           </div>
-                          <Button asChild variant="outline">
-                            <Link href="/dashboard">Dashboard</Link>
-                          </Button>
                           <Button onClick={handleLogout} variant="destructive">
                             <LogOut className="mr-2 h-4 w-4" />
                             Log out
