@@ -31,10 +31,11 @@ const formSchema = z.object({
 export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  console.log(callbackUrl);
 
   const handleGoogleLogin = async () => {
-    const origin = typeof window !== "undefined" ? window.location.origin : "http://localhost:3000";
+    const origin = typeof window !== "undefined" ? window.location.origin : process.env.NEXT_PUBLIC_CLIENT_URL;
     const absoluteCallbackUrl = callbackUrl.startsWith("http")
       ? callbackUrl
       : `${origin}${callbackUrl.startsWith("/") ? "" : "/"}${callbackUrl}`;
@@ -48,7 +49,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
   const form = useForm({
     defaultValues: {
       email: "",
-      password: "",
+      password: ""
     },
     validators: {
       onSubmit: formSchema,
@@ -62,7 +63,6 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
           toast.error(error.message, { id: toastId });
           return;
         }
-
         toast.success("User Logged in Successfully", { id: toastId });
         router.push(callbackUrl);
         router.refresh();

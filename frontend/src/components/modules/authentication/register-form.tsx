@@ -34,11 +34,11 @@ const formSchema = z.object({
 export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const [emailSent, setEmailSent] = React.useState(false);
 
   const handleGoogleLogin = async () => {
-    const origin = typeof window !== "undefined" ? window.location.origin : "http://localhost:3000";
+    const origin = typeof window !== "undefined" ? window.location.origin : process.env.NEXT_PUBLIC_CLIENT_URL;
     const absoluteCallbackUrl = callbackUrl.startsWith("http")
       ? callbackUrl
       : `${origin}${callbackUrl.startsWith("/") ? "" : "/"}${callbackUrl}`;

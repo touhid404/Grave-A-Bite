@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Roles } from "./src/constants/roles";
-import { customerService } from "./src/services/customer.service";
+import { customerService } from "@/services/customer.service";
+import { Roles } from "@/constants/roles";
 
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -8,6 +8,7 @@ export async function proxy(request: NextRequest) {
   let isAuthenticated = false;
   let isAdmin = false;
   let isProvider = false;
+  let isCustomer = false;
 
   const { data } = await customerService.getSession();
 
@@ -15,36 +16,28 @@ export async function proxy(request: NextRequest) {
     isAuthenticated = true;
     isAdmin = data.user.role === Roles.admin;
     isProvider = data.user.role === Roles.provider;
+    isCustomer = data.user.role === Roles.customer;
   }
 
-  //* User in not authenticated at all
+  // User is not authenticated at all
   if (!isAuthenticated) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  //* User is authenticated and role = ADMIN
-  if (isAdmin && pathname.startsWith("/dashboard")) {
+  // Admin can only visit admin-dashboard
+  if (isAdmin && pathname.startsWith("/dashboard") || isAdmin && pathname.startsWith("/provider-dashboard")) {
     return NextResponse.redirect(new URL("/admin-dashboard", request.url));
   }
-  
 
-  // Only provider can go 
-  if(isProvider && pathname.startsWith("/dashboard")){
+  // Provider can only visit provider-dashboard
+  if (isProvider && pathname.startsWith("/dashboard") || isProvider && pathname.startsWith("/admin-dashboard")) {
     return NextResponse.redirect(new URL("/provider-dashboard", request.url));
   }
 
-  //* User is authenticated and role = USER
-  //* User can not visit admin-dashboard
-  if (!isAdmin && !isProvider && pathname.startsWith("/admin-dashboard")) {
+  // Customer can only visit dashboard
+  if (isCustomer && pathname.startsWith("/admin-dashboard") || isCustomer && pathname.startsWith("/provider-dashboard")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
-
-  //* User is authenticated and role = USER
-  //* User can not visit provider-dashboard
-  if (!isAdmin && !isProvider && pathname.startsWith("/provider-dashboard")) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
-
   return NextResponse.next();
 }
 
@@ -52,10 +45,9 @@ export const config = {
   matcher: [
     "/dashboard",
     "/dashboard/:path*",
-    "/admin-dashboard",
-    "/admin-dashboard/:path*",
     "/provider-dashboard",
     "/provider-dashboard/:path*",
-
+    "/admin-dashboard",
+    "/admin-dashboard/:path*",
   ],
 };
