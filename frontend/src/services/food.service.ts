@@ -115,11 +115,31 @@ export const foodService = {
         cache: options?.cache || "no-store",
         next: options?.revalidate ? { revalidate: options.revalidate } : { tags: ["orders"] },
       };
-      const res = await fetch(`${API_URL}/orders/my-orders`, config);
+      const res = await fetch(`${API_URL}/orders`, config);
       const data = await res.json();
       return { data: data, error: null };
     } catch (err) {
       return { data: null, error: { message: "Failed to fetch your orders" } };
+    }
+  },
+
+  getOrderById: async (id: string, options?: ServiceOptions) => {
+    try {
+      const cookieStore = await cookies();
+      const config: RequestInit = {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        cache: options?.cache || "no-store",
+      };
+      const res = await fetch(`${API_URL}/orders/${id}`, config);
+      const data = await res.json();
+      if (!data.success) {
+        return { data: null, error: { message: data.message || "Failed to fetch order details" } };
+      }
+      return { data: data.data, error: null };
+    } catch (err) {
+      return { data: null, error: { message: "Something went wrong fetching order details" } };
     }
   },
 
@@ -134,6 +154,27 @@ export const foodService = {
       return { data: data, error: null };
     } catch (err) {
       return { data: null, error: { message: "Failed to fetch categories" } };
+    }
+  },
+
+  submitReview: async (reviewData: { mealId: string; rating: number; comment?: string }) => {
+    try {
+      const cookieStore = await cookies();
+      const res = await fetch(`${API_URL}/reviews`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookieStore.toString(),
+        },
+        body: JSON.stringify(reviewData),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        return { data: null, error: { message: data.message || "Failed to submit review" } };
+      }
+      return { data: data.data, error: null };
+    } catch (err) {
+      return { data: null, error: { message: "Something went wrong submitting your review" } };
     }
   },
 };
