@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { useEffect } from "react";
+import { Roles } from "@/constants/roles";
 
 const CheckoutClient = () => {
     const mounted = useMounted();
@@ -33,8 +34,8 @@ const CheckoutClient = () => {
         if (mounted && !isPending) {
             if (!session?.user) {
                 toast.error("Please login to checkout");
-                router.push("/login?callbackUrl=/checkout");
-            } else if ((session.user as any).role !== "CUSTOMER") {
+                router.push("/login");
+            } else if ((session.user as any).role !== Roles.customer) {
                 toast.error("Only customers can place orders. Admin and Providers cannot checkout.");
                 router.push("/");
             }

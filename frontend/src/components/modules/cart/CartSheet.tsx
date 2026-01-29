@@ -26,10 +26,10 @@ export default function CartSheet() {
             toast.error("Please login to checkout", {
                 action: {
                     label: "Login",
-                    onClick: () => router.push("/login?callbackUrl=/checkout"),
+                    onClick: () => router.push("/login"),
                 },
             });
-            router.push("/login?callbackUrl=/checkout");
+            router.push("/login");
             return;
         }
 
