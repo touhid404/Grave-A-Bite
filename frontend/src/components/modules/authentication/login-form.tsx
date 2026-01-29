@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { useForm } from "@tanstack/react-form";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -30,19 +29,12 @@ const formSchema = z.object({
 
 export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
-  console.log(callbackUrl);
 
   const handleGoogleLogin = async () => {
-    const origin = typeof window !== "undefined" ? window.location.origin : process.env.NEXT_PUBLIC_CLIENT_URL;
-    const absoluteCallbackUrl = callbackUrl.startsWith("http")
-      ? callbackUrl
-      : `${origin}${callbackUrl.startsWith("/") ? "" : "/"}${callbackUrl}`;
-
+    const origin = process.env.NEXT_PUBLIC_CLIENT_URL;
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: absoluteCallbackUrl,
+      callbackURL: origin,
     });
   };
 
@@ -64,7 +56,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
           return;
         }
         toast.success("User Logged in Successfully", { id: toastId });
-        router.push(callbackUrl);
+        router.push("/");
         router.refresh();
       } catch (err) {
         toast.error("Something went wrong, please try again.", { id: toastId });
@@ -169,7 +161,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
         </Button>
         <p className="text-[11px] text-center text-muted-foreground mt-0 font-medium">
           New here?{" "}
-          <Link href={`/register?callbackUrl=${encodeURIComponent(callbackUrl)}`} className="text-primary font-black hover:underline italic uppercase tracking-tighter">
+          <Link href="/register" className="text-primary font-black hover:underline italic uppercase tracking-tighter">
             Create Account
           </Link>
         </p>
