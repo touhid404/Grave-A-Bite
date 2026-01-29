@@ -35,8 +35,8 @@ export default async function MealsPage({ searchParams }: MealsPageProps) {
         foodService.getCategories()
     ]);
 
-    const meals = mealsRes.data?.data?.data || [];
-    const meta = mealsRes.data?.data?.meta || { limit: 8, page: 1, total: 0, totalPages: 0 };
+    const meals = mealsRes.data?.data || [];
+    const meta = mealsRes.data?.meta || { limit: 8, page: 1, total: 0, totalPages: 0 };
     const categories = categoriesRes.data?.data || [];
     const hasError = mealsRes.error?.message;
 

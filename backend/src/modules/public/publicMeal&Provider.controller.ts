@@ -4,10 +4,11 @@ import { PublicService } from "./publicMeal&Provider.service";
 const getAllMeals = async (req: Request, res: Response) => {
     try {
         const filters = req.query as any;
-        const meals = await PublicService.getAllMeals(filters);
+        const { data, meta } = await PublicService.getAllMeals(filters);
         res.status(200).json({
             success: true,
-            data: meals,
+            data,
+            meta,
         });
     } catch (error: any) {
         res.status(500).json({

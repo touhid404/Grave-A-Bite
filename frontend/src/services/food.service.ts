@@ -35,7 +35,7 @@ export const foodService = {
       }
 
       const config: RequestInit = {
-        cache: options?.cache || "default",
+        cache: options?.cache || "no-store",
         next: options?.revalidate ? { revalidate: options.revalidate } : { tags: ["meals"] },
       };
 

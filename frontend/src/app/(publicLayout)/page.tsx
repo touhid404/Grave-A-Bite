@@ -6,7 +6,7 @@ import { foodService } from "@/services/food.service";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import JoinCommunity from "@/components/modules/homepage/JoinCommunity";
+import { Meal } from "@/types";
 
 export default async function Home() {
   const mealsPromise = foodService.getMeals({ limit: "6" });
@@ -55,9 +55,9 @@ export default async function Home() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
-              {meals?.data?.data?.map((meal: any, index: number) => (
+              {meals?.data?.data?.map((meal: Meal, index: number) => (
                 <div
-                  key={meal.id}
+                  key={index}
                   className="animate-fade-in-up"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
