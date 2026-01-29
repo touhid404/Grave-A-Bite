@@ -28,7 +28,7 @@ import { MailCheck, ArrowLeft } from "lucide-react";
 const formSchema = z.object({
   name: z.string().min(1, "This field is required"),
   password: z.string().min(8, "Minimum length is 8"),
-  email: z.string().email("Invalid email address"),
+  email: z.email(),
 });
 
 export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {

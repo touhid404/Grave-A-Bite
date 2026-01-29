@@ -1,4 +1,5 @@
 import { LoginForm } from "@/components/modules/authentication/login-form";
+import { Suspense } from "react";
 
 export default function Page() {
   return (
@@ -9,7 +10,9 @@ export default function Page() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
       <div className="relative z-10 w-full max-w-md px-4">
-        <LoginForm />
+        <Suspense fallback={null}>
+          <LoginForm />
+        </Suspense>
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ import * as z from "zod";
 
 const formSchema = z.object({
   password: z.string().min(8, "Minimum length is 8"),
-  email: z.string().email(),
+  email: z.email(),
 });
 
 export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {

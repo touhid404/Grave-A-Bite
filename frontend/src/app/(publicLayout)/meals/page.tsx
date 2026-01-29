@@ -1,11 +1,10 @@
 import FoodCard from "@/components/modules/homepage/foodCard";
-import { Input } from "@/components/ui/input";
 import { foodService } from "@/services/food.service";
-import { Search, SlidersHorizontal, Utensils, X, Star, Flame } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 import Link from "next/link";
 import MealsFilter from "@/components/modules/meals/MealsFilter";
 import PaginationControls from "@/components/ui/pagination-controls";
+import { Suspense } from "react";
 
 interface MealsPageProps {
     searchParams: Promise<{
@@ -91,7 +90,9 @@ export default async function MealsPage({ searchParams }: MealsPageProps) {
 
                         {/* Pagination */}
                         <div className="flex justify-center pt-10">
-                            <PaginationControls meta={meta} />
+                            <Suspense fallback={null}>
+                                <PaginationControls meta={meta} />
+                            </Suspense>
                         </div>
                     </div>
                 )}
