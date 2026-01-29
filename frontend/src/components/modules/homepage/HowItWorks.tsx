@@ -23,7 +23,7 @@ const steps = [
     {
         number: "04",
         title: "Enjoy",
-        description: "Receive your food hot and fresh, and earn rewards for your loyalty.",
+        description: "Receive your food hot and fresh, and experience the next level of culinary art.",
         icon: Star,
     },
 ];
@@ -50,7 +50,7 @@ const HowItWorks = () => {
                         </h2>
                     </div>
                     <p className="text-muted-foreground text-xl font-medium max-w-md italic border-l-2 border-primary/20 pl-8">
-                        FoodHub isn't just an app; it's a movement connecting visionary chefs with flavor explorers. Here's how we rewrite the rules of delivery.
+                        GrabABite isn't just an app; it's a movement connecting visionary chefs with flavor explorers. Here's how we rewrite the rules of delivery.
                     </p>
                 </div>
 

@@ -51,7 +51,7 @@ export function AppSidebar({
             <UtensilsCrossed className="h-5 w-5 text-black -rotate-3" />
           </div>
           <div className="flex flex-col">
-            <span className="font-black text-xl italic tracking-tighter leading-none uppercase">Food<span className="text-primary not-italic">Hub</span></span>
+            <span className="font-black text-xl italic tracking-tighter leading-none uppercase">GrabA<span className="text-primary not-italic">Bite</span></span>
           </div>
         </Link>
       </SidebarHeader>

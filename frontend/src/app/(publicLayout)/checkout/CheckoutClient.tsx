@@ -96,58 +96,58 @@ const CheckoutClient = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-32">
-            <div className="flex flex-col gap-2 mb-12">
-                <span className="text-primary font-black uppercase tracking-[0.2em] text-xs">Secure Checkout</span>
-                <h1 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter">Finalize <span className="text-primary transparent-text-outline">Order</span></h1>
+        <div className="container mx-auto px-4 py-12 lg:py-20">
+            <div className="flex flex-col gap-1 mb-8">
+                <span className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Secure Checkout</span>
+                <h1 className="text-3xl md:text-4xl font-black uppercase italic tracking-tighter leading-none">Finalize <span className="text-primary transparent-text-outline">Order</span></h1>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 {/* Form Section */}
-                <div className="lg:col-span-7 space-y-8">
-                    <form onSubmit={handleSubmit} className="space-y-8">
-                        <Card className="border-2 rounded-[2rem] overflow-hidden bg-card/50 backdrop-blur-xl">
-                            <CardHeader className="border-b bg-muted/30 pb-6">
-                                <CardTitle className="flex items-center gap-3 font-black uppercase tracking-tight italic">
-                                    <Truck className="h-6 w-6 text-primary" />
+                <div className="lg:col-span-7 space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <Card className="rounded-3xl border-border/50 bg-card/50 backdrop-blur-xl overflow-hidden shadow-2xl shadow-primary/5">
+                            <CardHeader className="border-b border-border/50 bg-primary/5 py-5 px-6">
+                                <CardTitle className="flex items-center gap-3 text-sm font-black uppercase tracking-widest italic">
+                                    <Truck className="h-5 w-5 text-primary" />
                                     Delivery Details
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="pt-8 space-y-6">
-                                <div className="space-y-3">
-                                    <Label htmlFor="address" className="font-black uppercase tracking-widest text-[10px] text-muted-foreground flex items-center gap-2">
+                            <CardContent className="p-6 space-y-5">
+                                <div className="space-y-2">
+                                    <Label htmlFor="address" className="font-black uppercase tracking-widest text-[9px] text-muted-foreground flex items-center gap-2 ml-1">
                                         <MapPin className="h-3 w-3" /> Delivery Address
                                     </Label>
                                     <Input
                                         id="address"
                                         placeholder="Enter your full street address"
-                                        className="h-14 rounded-xl border-2 focus-visible:ring-primary"
+                                        className="h-12 rounded-xl border-border/50 bg-background/50 focus-visible:ring-primary font-bold text-sm"
                                         required
                                         value={address}
                                         onChange={(e) => setAddress(e.target.value)}
                                     />
                                 </div>
-                                <div className="space-y-3">
-                                    <Label htmlFor="phone" className="font-black uppercase tracking-widest text-[10px] text-muted-foreground flex items-center gap-2">
+                                <div className="space-y-2">
+                                    <Label htmlFor="phone" className="font-black uppercase tracking-widest text-[9px] text-muted-foreground flex items-center gap-2 ml-1">
                                         <Phone className="h-3 w-3" /> Contact Number
                                     </Label>
                                     <Input
                                         id="phone"
                                         placeholder="E.g. +880 1XXX XXXXXX"
-                                        className="h-14 rounded-xl border-2 focus-visible:ring-primary"
+                                        className="h-12 rounded-xl border-border/50 bg-background/50 focus-visible:ring-primary font-bold text-sm"
                                         required
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
                                     />
                                 </div>
-                                <div className="space-y-3">
-                                    <Label htmlFor="notes" className="font-black uppercase tracking-widest text-[10px] text-muted-foreground flex items-center gap-2">
+                                <div className="space-y-2">
+                                    <Label htmlFor="notes" className="font-black uppercase tracking-widest text-[9px] text-muted-foreground flex items-center gap-2 ml-1">
                                         <MessageSquare className="h-3 w-3" /> Note to Provider (Optional)
                                     </Label>
                                     <Textarea
                                         id="notes"
                                         placeholder="Extra spicy, no onions, leave at the door, etc."
-                                        className="min-h-[120px] rounded-2xl border-2 focus-visible:ring-primary resize-none"
+                                        className="min-h-[100px] rounded-xl border-border/50 bg-background/50 focus-visible:ring-primary resize-none font-bold text-sm"
                                         value={notes}
                                         onChange={(e) => setNotes(e.target.value)}
                                     />
@@ -155,38 +155,42 @@ const CheckoutClient = () => {
                             </CardContent>
                         </Card>
 
-                        <Card className="border-2 rounded-[2rem] overflow-hidden bg-zinc-950 text-white shadow-2xl shadow-primary/10">
-                            <CardHeader className="border-b border-white/10 pb-6">
-                                <CardTitle className="flex items-center gap-3 font-black uppercase tracking-tight italic">
-                                    <CreditCard className="h-6 w-6 text-primary" />
+                        <Card className="rounded-3xl border-border/50 bg-black text-white overflow-hidden shadow-2xl">
+                            <CardHeader className="border-b border-white/10 bg-white/5 py-5 px-6">
+                                <CardTitle className="flex items-center gap-3 text-sm font-black uppercase tracking-widest italic text-primary">
+                                    <CreditCard className="h-5 w-5" />
                                     Payment Method
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="pt-8">
-                                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-4">
-                                    <div className="h-12 w-12 rounded-full bg-primary flex items-center justify-center text-black">
-                                        <CheckCircle2 className="h-6 w-6" />
+                            <CardContent className="p-6">
+                                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-4 group hover:bg-white/10 transition-colors">
+                                    <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center text-black">
+                                        <CheckCircle2 className="h-5 w-5" />
                                     </div>
                                     <div>
-                                        <h4 className="font-black uppercase italic tracking-tight">Cash on Delivery</h4>
-                                        <p className="text-zinc-400 text-sm">Pay when you receive your delicious meal.</p>
+                                        <h4 className="font-black uppercase italic tracking-tight text-sm">Cash on Delivery</h4>
+                                        <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">Pay upon safe arrival</p>
                                     </div>
                                 </div>
-                                <p className="mt-6 text-xs text-zinc-500 font-bold uppercase tracking-widest text-center">
-                                    Digital payment methods coming soon
-                                </p>
+                                <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-center gap-2">
+                                    <span className="h-1 w-1 rounded-full bg-primary/40" />
+                                    <p className="text-[8px] text-zinc-500 font-black uppercase tracking-[0.3em]">
+                                        Digital vaults opening soon
+                                    </p>
+                                    <span className="h-1 w-1 rounded-full bg-primary/40" />
+                                </div>
                             </CardContent>
                         </Card>
 
                         <Button
                             type="submit"
                             disabled={loading}
-                            className="w-full h-20 rounded-[1.5rem] bg-primary text-black font-black uppercase text-xl shadow-xl shadow-primary/20 hover:scale-[1.01] transition-transform flex items-center justify-center gap-3"
+                            className="w-full h-16 rounded-2xl bg-primary text-black font-black uppercase text-lg shadow-xl shadow-primary/20 hover:scale-[1.01] transition-all active:scale-95 flex items-center justify-center gap-3 group"
                         >
-                            {loading ? "Placing Order..." : (
+                            {loading ? "Initializing..." : (
                                 <>
-                                    Place Order {formatCurrency(total)}
-                                    <ArrowRight className="h-6 w-6" />
+                                    Complete Payment {formatCurrency(total)}
+                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                                 </>
                             )}
                         </Button>
@@ -195,47 +199,47 @@ const CheckoutClient = () => {
 
                 {/* Summary Section */}
                 <div className="lg:col-span-5">
-                    <Card className="border-2 rounded-[2.5rem] overflow-hidden bg-card/30 backdrop-blur-2xl sticky top-32">
-                        <CardHeader className="border-b bg-muted/20 pb-6">
-                            <CardTitle className="font-black uppercase tracking-tight italic">Order Summary</CardTitle>
+                    <Card className="rounded-3xl border-border/50 bg-card/30 backdrop-blur-2xl overflow-hidden shadow-2xl shadow-primary/5 sticky top-8">
+                        <CardHeader className="border-b border-border/50 bg-muted/30 py-5 px-6">
+                            <CardTitle className="text-sm font-black uppercase tracking-widest italic">Order Summary</CardTitle>
                         </CardHeader>
-                        <CardContent className="pt-8">
-                            <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                        <CardContent className="p-6">
+                            <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
                                 {items.map((item) => (
-                                    <div key={item.id} className="flex gap-4 group">
-                                        <div className="relative h-20 w-20 rounded-2xl overflow-hidden shrink-0 border-2 border-border/50">
+                                    <div key={item.id} className="flex gap-4 group items-center">
+                                        <div className="relative h-16 w-16 rounded-xl overflow-hidden shrink-0 border border-border/50 shadow-lg">
                                             <Image src={item.image} fill alt={item.name} className="object-cover group-hover:scale-110 transition-transform duration-500" />
                                         </div>
-                                        <div className="flex-1 flex flex-col justify-center">
-                                            <h4 className="font-black uppercase italic tracking-tighter text-sm line-clamp-1">{item.name}</h4>
-                                            <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">{item.providerName}</p>
+                                        <div className="flex-1 min-w-0">
+                                            <h4 className="font-black uppercase italic tracking-tighter text-sm truncate">{item.name}</h4>
+                                            <p className="text-[9px] text-muted-foreground font-black uppercase tracking-widest">{item.providerName}</p>
                                             <div className="flex justify-between items-center mt-1">
-                                                <span className="text-xs font-bold text-muted-foreground">{item.quantity} × {formatCurrency(item.price)}</span>
-                                                <span className="font-black text-sm">{formatCurrency(item.price * item.quantity)}</span>
+                                                <span className="text-[10px] font-bold text-muted-foreground">{item.quantity} × {formatCurrency(item.price)}</span>
+                                                <span className="font-black text-sm italic tracking-tighter">{formatCurrency(item.price * item.quantity)}</span>
                                             </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
 
-                            <div className="mt-8 pt-8 border-t space-y-4">
+                            <div className="mt-6 pt-6 border-t border-border/50 space-y-3">
                                 <div className="flex justify-between text-muted-foreground">
-                                    <span className="font-bold uppercase tracking-widest text-xs">Subtotal</span>
-                                    <span className="font-black">{formatCurrency(subtotal)}</span>
+                                    <span className="font-black uppercase tracking-widest text-[9px]">Subtotal</span>
+                                    <span className="font-black text-sm italic">{formatCurrency(subtotal)}</span>
                                 </div>
                                 <div className="flex justify-between text-muted-foreground">
-                                    <span className="font-bold uppercase tracking-widest text-xs">Delivery Fee</span>
-                                    <span className="font-black">{formatCurrency(deliveryFee)}</span>
+                                    <span className="font-black uppercase tracking-widest text-[9px]">Logistics Fee</span>
+                                    <span className="font-black text-sm italic">{formatCurrency(deliveryFee)}</span>
                                 </div>
-                                <div className="flex justify-between items-center pt-4 mt-4 border-t-2 border-dashed">
-                                    <span className="font-black uppercase tracking-widest text-sm">Grand Total</span>
-                                    <span className="text-3xl font-black text-primary tracking-tighter">{formatCurrency(total)}</span>
+                                <div className="flex justify-between items-center pt-4 mt-4 border-t-2 border-dashed border-border/50">
+                                    <span className="font-black uppercase tracking-widest text-xs italic">Grand Total</span>
+                                    <span className="text-2xl font-black text-primary tracking-tighter italic">{formatCurrency(total)}</span>
                                 </div>
                             </div>
                         </CardContent>
-                        <CardFooter className="bg-muted/10 p-6 flex items-center gap-3 text-xs text-muted-foreground font-medium italic">
-                            <ShoppingBag className="h-4 w-4 text-primary" />
-                            All prices include VAT where applicable.
+                        <CardFooter className="bg-muted/30 border-t border-border/50 py-4 px-6 flex items-center gap-3 text-[9px] text-muted-foreground font-black uppercase tracking-widest italic">
+                            <ShoppingBag className="h-3.5 w-3.5 text-primary" />
+                            VAT included where applicable.
                         </CardFooter>
                     </Card>
                 </div>

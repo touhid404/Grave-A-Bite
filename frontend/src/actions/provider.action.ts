@@ -29,6 +29,10 @@ export const getOrdersAction = async () => {
     return await providerService.getOrders();
 };
 
+export const getProviderOrderDetailsAction = async (id: string) => {
+    return await providerService.getOrderById(id);
+};
+
 export const updateOrderStatusAction = async (id: string, status: string) => {
     const res = await providerService.updateOrderStatus(id, status);
     revalidateTag("orders", "max");

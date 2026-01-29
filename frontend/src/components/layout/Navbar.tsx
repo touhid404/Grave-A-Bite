@@ -70,8 +70,8 @@ const Navbar = ({
   logo = {
     url: "/",
     src: "https://raw.githubusercontent.com/shadcn-ui/ui/main/public/favicon.ico", // Better placeholder
-    alt: "FoodHub",
-    title: "FoodHub",
+    alt: "GrabABite",
+    title: "GrabABite",
   },
   menu = [
     { title: "Home", url: "/" },
@@ -157,7 +157,7 @@ const Navbar = ({
                 <UtensilsCrossed className="h-5 w-5 text-black" />
               </div>
               <span className="text-xl font-black tracking-tighter">
-                Food<span className="text-primary italic">Hub</span>
+                GrabA<span className="text-primary italic">Bite</span>
               </span>
             </Link>
             <div className="flex items-center">
@@ -230,7 +230,7 @@ const Navbar = ({
                 <UtensilsCrossed className="h-6 w-6 text-black" />
               </div>
               <span className="text-2xl font-black tracking-tighter">
-                Food<span className="text-primary italic">Hub</span>
+                GrabA<span className="text-primary italic">Bite</span>
               </span>
             </Link>
             <div className="flex items-center gap-2">
@@ -258,7 +258,7 @@ const Navbar = ({
                           <UtensilsCrossed className="h-5 w-5 text-black" />
                         </div>
                         <span className="text-xl font-black tracking-tighter">
-                          Food<span className="text-primary italic">Hub</span>
+                          GrabA<span className="text-primary italic">Bite</span>
                         </span>
                       </Link>
                     </SheetTitle>

@@ -94,6 +94,25 @@ export const providerService = {
         }
     },
 
+    getOrderById: async function (id: string) {
+        try {
+            const cookieStore = await cookies();
+            const res = await fetch(`${API_URL}/provider-management/orders/${id}`, {
+                headers: {
+                    Cookie: cookieStore.toString(),
+                },
+                cache: "no-store",
+            });
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+                return { data: null, error: { message: data.message || "Failed to fetch order details" } };
+            }
+            return { data: data.data, error: null };
+        } catch (err) {
+            return { data: null, error: { message: "Failed to fetch order details" } };
+        }
+    },
+
     updateOrderStatus: async function (id: string, status: string) {
         try {
             const cookieStore = await cookies();

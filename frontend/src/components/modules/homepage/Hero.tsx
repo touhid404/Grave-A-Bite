@@ -25,14 +25,14 @@ const Hero = () => {
                             REDEFINING <br />
                             <span className="relative inline-block">
                                 <span className="text-primary italic">LOCAL</span>
-                                
+
                             </span> <br />
                             GASTRONOMY
                         </h1>
 
                         <div className="grid md:grid-cols-5 gap-8 items-center">
                             <p className="md:col-span-3 text-base md:text-lg text-muted-foreground font-medium leading-relaxed italic border-l-2 border-primary/20 pl-6">
-                                FoodHub connects visionary local chefs with a global community of flavor explorers. Join the movement.
+                                GrabABite connects visionary local chefs with a global community of flavor explorers. Join the movement.
                             </p>
 
                             <div className="md:col-span-2 flex flex-col gap-4">

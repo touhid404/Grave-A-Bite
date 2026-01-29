@@ -111,7 +111,7 @@ function VerificationContent() {
                 {status === "success" && (
                     <div className="space-y-4">
                         <p className="text-xs font-medium text-muted-foreground">
-                            You can now access all features of FoodHub. Welcome to the community!
+                            You can now access all features of GrabABite. Welcome to the community!
                         </p>
                         <Button asChild className="w-full h-14 rounded-2xl font-black text-xl bg-primary text-black hover:bg-primary/90 shadow-xl shadow-primary/20 transition-all active:scale-[0.97] uppercase italic tracking-tighter">
                             <Link href="/login" className="flex items-center justify-center gap-2">
@@ -131,7 +131,7 @@ function VerificationContent() {
             </CardContent>
 
             <CardFooter className="bg-muted/10 py-4 flex justify-center border-t border-border/50 text-[10px] uppercase tracking-widest font-black opacity-50">
-                FoodHub Security Protocol
+                GrabABite Security Protocol
             </CardFooter>
         </Card>
     );

@@ -34,9 +34,14 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
   const handleGoogleLogin = async () => {
+    const origin = typeof window !== "undefined" ? window.location.origin : "http://localhost:3000";
+    const absoluteCallbackUrl = callbackUrl.startsWith("http")
+      ? callbackUrl
+      : `${origin}${callbackUrl.startsWith("/") ? "" : "/"}${callbackUrl}`;
+
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: callbackUrl,
+      callbackURL: absoluteCallbackUrl,
     });
   };
 

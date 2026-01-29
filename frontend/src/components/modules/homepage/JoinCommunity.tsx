@@ -37,7 +37,7 @@ const JoinCommunity = () => {
                     </h2>
 
                     <p className="text-xl md:text-2xl text-zinc-400 font-medium max-w-3xl mb-20 leading-relaxed italic">
-                        Step inside a global movement of flavor explorers. FoodHub is where visionary craftsmanship meets your doorstep.
+                        Step inside a global movement of flavor explorers. GrabABite is where visionary craftsmanship meets your doorstep.
                     </p>
 
                     {/* Stats Matrix */}

@@ -11,7 +11,7 @@ const NewsletterFooter = () => {
                     {/* Brand & Essential Links */}
                     <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
                         <Link href="/" className="text-2xl font-black italic tracking-tighter hover:text-primary transition-colors">
-                            FOODHUB
+                            GRABABITE
                         </Link>
 
                         <nav>
@@ -43,7 +43,7 @@ const NewsletterFooter = () => {
                 </div>
 
                 <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-zinc-700 font-black uppercase tracking-[0.2em] text-[8px]">
-                    <p>&copy; {currentYear} FOODHUB. ALL RIGHTS RESERVED.</p>
+                    <p>&copy; {currentYear} GRABABITE. ALL RIGHTS RESERVED.</p>
                     <div className="flex items-center gap-2 opacity-40">
                         <div className="w-8 h-[1px] bg-zinc-800" />
                         <span className="italic">FLAVOR ARCHITECTURE</span>

@@ -38,9 +38,14 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
   const [emailSent, setEmailSent] = React.useState(false);
 
   const handleGoogleLogin = async () => {
+    const origin = typeof window !== "undefined" ? window.location.origin : "http://localhost:3000";
+    const absoluteCallbackUrl = callbackUrl.startsWith("http")
+      ? callbackUrl
+      : `${origin}${callbackUrl.startsWith("/") ? "" : "/"}${callbackUrl}`;
+
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: callbackUrl,
+      callbackURL: absoluteCallbackUrl,
     });
   };
 
@@ -108,7 +113,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
     <Card className="border-2 rounded-[2.5rem] shadow-2xl overflow-hidden bg-card/40 backdrop-blur-md border-white/5" {...props}>
       <CardHeader className="space-y-1 pt-4 pb-1 text-center">
         <CardTitle className="text-3xl font-black tracking-tighter uppercase leading-none">
-          Join <span className="text-primary italic">FoodHub</span>
+          Join <span className="text-primary italic">GrabABite</span>
         </CardTitle>
         <CardDescription className="text-muted-foreground font-bold text-[9px] uppercase tracking-widest opacity-60">
           Delicious meals await

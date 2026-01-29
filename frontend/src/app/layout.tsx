@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FoodHub",
-  description: "A food ordering app",
+  title: "GrabABite",
+  description: "The ultimate local kitchen connection",
 };
 
 export default function RootLayout({
