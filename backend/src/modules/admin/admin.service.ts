@@ -39,7 +39,10 @@ const makeProvider = async (providerData: ProviderProfile) => {
     return await prisma.$transaction(async (tx) => {
         // Create the provider profile
         const profile = await tx.providerProfile.create({
-            data: providerData,
+            data: {
+                ...providerData,
+                isApproved: true
+            },
         });
 
         // Update the user's role to PROVIDER
@@ -49,6 +52,45 @@ const makeProvider = async (providerData: ProviderProfile) => {
         });
 
         return profile;
+    });
+};
+
+const getProviders = async () => {
+    return await prisma.user.findMany({
+        where: {
+            OR: [
+                { role: "PROVIDER" },
+                {
+                    role: "CUSTOMER",
+                    id: {
+                        in: (await prisma.providerProfile.findMany({
+                            select: { userId: true }
+                        })).map(p => p.userId)
+                    }
+                }
+            ]
+        },
+        include: {
+            providerProfile: true,
+            sessions: false,
+            accounts: false,
+        }
+    });
+};
+
+const approveProvider = async (userId: string) => {
+    return await prisma.$transaction(async (tx) => {
+        // Update the provider profile to approved
+        await tx.providerProfile.update({
+            where: { userId },
+            data: { isApproved: true },
+        });
+
+        // Update the user's role to PROVIDER
+        return await tx.user.update({
+            where: { id: userId },
+            data: { role: "PROVIDER" },
+        });
     });
 };
 
@@ -77,6 +119,8 @@ export const AdminService = {
     getAllUsers,
     updateUserStatus,
     makeProvider,
+    getProviders,
+    approveProvider,
     addCategory,
     updateCategory,
     deleteCategory,

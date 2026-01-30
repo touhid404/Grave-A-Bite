@@ -138,23 +138,45 @@ const deleteCategory = async (req: Request, res: Response) => {
 // Make Provider By Admin (OK)
 const makeProvider = async (req: Request, res: Response) => {
     try {
-        const userId = req.user?.id;
-        if (!userId) {
-            res.status(401).json({
-                success: false,
-                message: "Unauthorized",
-            });
-            return;
-        }
         const customerId = req.params.customerId as string;
-        const customerData = {
+        const provider = await AdminService.makeProvider({
             userId: customerId,
             ...req.body,
-        }
-        const provider = await AdminService.makeProvider(customerData);
+        });
         res.status(201).json({
             success: true,
             data: provider,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+const getAllProviders = async (req: Request, res: Response) => {
+    try {
+        const providers = await AdminService.getProviders();
+        res.status(200).json({
+            success: true,
+            data: providers,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+const approveProvider = async (req: Request, res: Response) => {
+    try {
+        const userId = req.params.id as string;
+        const user = await AdminService.approveProvider(userId);
+        res.status(200).json({
+            success: true,
+            data: user,
         });
     } catch (error: any) {
         res.status(500).json({
@@ -183,6 +205,8 @@ export const AdminController = {
     getAllUsers,
     updateUserStatus,
     makeProvider,
+    getAllProviders,
+    approveProvider,
     addCategory,
     updateCategory,
     deleteCategory,

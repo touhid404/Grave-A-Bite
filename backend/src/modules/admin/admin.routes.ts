@@ -10,6 +10,8 @@ router.patch("/users/:id", authMiddleware(UserRole.ADMIN), AdminController.updat
 
 // Make Provider Request (OK)
 router.post("/make-provider/:customerId", authMiddleware(UserRole.ADMIN), AdminController.makeProvider);
+router.get("/providers", authMiddleware(UserRole.ADMIN), AdminController.getAllProviders);
+router.patch("/approve-provider/:id", authMiddleware(UserRole.ADMIN), AdminController.approveProvider);
 
 // Manage Categories (OK)
 router.get("/categories", authMiddleware(UserRole.ADMIN), AdminController.getAllCategories);

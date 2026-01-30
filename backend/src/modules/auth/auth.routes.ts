@@ -8,6 +8,7 @@ const router = Router();
 
 // Auth Routes (OK check by postman)
 router.get("/", authMiddleware(UserRole.CUSTOMER, UserRole.ADMIN, UserRole.PROVIDER), AuthController.getUserProfileById);
-router.put("/", authMiddleware(UserRole.CUSTOMER, UserRole.ADMIN, UserRole.PROVIDER), upload.single("image"), AuthController.updateProfile);
+router.put("/", authMiddleware(UserRole.CUSTOMER, UserRole.ADMIN, UserRole.PROVIDER), AuthController.updateProfile);
+router.post("/request-become-provider", authMiddleware(UserRole.CUSTOMER), AuthController.requestBecomeProvider);
 
 export const AuthRoutes = router;
