@@ -22,4 +22,7 @@ router.delete("/categories/:id", authMiddleware(UserRole.ADMIN), AdminController
 // View All Orders
 router.get("/orders", authMiddleware(UserRole.ADMIN), AdminController.getAllOrders);
 
+// Admin Stats
+router.get("/stats", authMiddleware(UserRole.ADMIN), AdminController.getAdminStats);
+
 export const AdminRoutes = router;

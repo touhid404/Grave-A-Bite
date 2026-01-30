@@ -115,6 +115,27 @@ const deleteCategory = async (categoryId: string) => {
     });
 };
 
+const getAdminStats = async () => {
+    const [userCount, providerCount, orderCount, pendingApprovals, totalRevenue] = await Promise.all([
+        prisma.user.count(),
+        prisma.providerProfile.count({ where: { isApproved: true } }),
+        prisma.order.count(),
+        prisma.providerProfile.count({ where: { isApproved: false } }),
+        prisma.order.aggregate({
+            where: { status: "DELIVERED" },
+            _sum: { totalAmount: true }
+        })
+    ]);
+
+    return {
+        userCount,
+        providerCount,
+        orderCount,
+        pendingApprovals,
+        totalRevenue: totalRevenue._sum.totalAmount || 0,
+    };
+};
+
 export const AdminService = {
     getAllUsers,
     updateUserStatus,
@@ -126,4 +147,5 @@ export const AdminService = {
     deleteCategory,
     getAllOrders,
     getAllCategories,
+    getAdminStats,
 };

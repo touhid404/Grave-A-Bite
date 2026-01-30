@@ -19,7 +19,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, ShieldAlert, ShieldCheck, UserX, UserCheck } from "lucide-react";
+import { MoreHorizontal, ShieldCheck, UserX, UserCheck } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -115,12 +115,6 @@ export function UserTable({ users, onUpdateStatus }: UserTableProps) {
                                                     ACTIVATE USER
                                                 </div>
                                             )}
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem className="rounded-xl px-4 py-3 focus:bg-destructive/10 focus:text-destructive cursor-pointer transition-colors">
-                                            <div className="flex items-center gap-3 font-bold text-xs">
-                                                <ShieldAlert className="h-4 w-4" />
-                                                FLAG ACCOUNT
-                                            </div>
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>

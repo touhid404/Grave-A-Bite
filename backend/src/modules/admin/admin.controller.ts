@@ -201,6 +201,21 @@ const getAllOrders = async (req: Request, res: Response) => {
     }
 };
 
+const getAdminStats = async (req: Request, res: Response) => {
+    try {
+        const stats = await AdminService.getAdminStats();
+        res.status(200).json({
+            success: true,
+            data: stats,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
 export const AdminController = {
     getAllUsers,
     updateUserStatus,
@@ -212,4 +227,5 @@ export const AdminController = {
     deleteCategory,
     getAllOrders,
     getAllCategories,
+    getAdminStats,
 };

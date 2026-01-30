@@ -1,40 +1,37 @@
-import { API_URL } from "@/env";
 import { cookies } from "next/headers";
-
-interface categoryType {
-
-}
+import { API_URL } from "@/env";
 
 export const adminService = {
+    getStats: async function () {
+        try {
+            const cookieStore = await cookies();
+            const res = await fetch(`${API_URL}/admin/stats`, {
+                headers: {
+                    Cookie: cookieStore.toString(),
+                },
+                cache: "no-store",
+            });
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+                return { data: null, error: { message: data.message || "Failed to fetch admin stats" } };
+            }
+            return { data: data.data, error: null };
+        } catch (err) {
+            return { data: null, error: { message: "Failed to fetch admin stats" } };
+        }
+    },
+
     getAllUsers: async function () {
         try {
             const cookieStore = await cookies();
             const res = await fetch(`${API_URL}/admin/users`, {
-                headers: {
-                    Cookie: cookieStore.toString(),
-                },
+                headers: { Cookie: cookieStore.toString() },
                 cache: "no-store",
             });
             const data = await res.json();
-            return { data: data, error: null };
+            return { data, error: null };
         } catch (err) {
             return { data: null, error: { message: "Failed to fetch users" } };
-        }
-    },
-
-    getAllProviders: async function () {
-        try {
-            const cookieStore = await cookies();
-            const res = await fetch(`${API_URL}/admin/providers`, {
-                headers: {
-                    Cookie: cookieStore.toString(),
-                },
-                cache: "no-store",
-            });
-            const data = await res.json();
-            return { data: data, error: null };
-        } catch (err) {
-            return { data: null, error: { message: "Failed to fetch providers" } };
         }
     },
 
@@ -45,14 +42,28 @@ export const adminService = {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    Cookie: cookieStore.toString(),
+                    Cookie: cookieStore.toString()
                 },
                 body: JSON.stringify({ status }),
             });
             const data = await res.json();
-            return { data: data, error: null };
+            return { data, error: null };
         } catch (err) {
             return { data: null, error: { message: "Failed to update user status" } };
+        }
+    },
+
+    getAllProviders: async function () {
+        try {
+            const cookieStore = await cookies();
+            const res = await fetch(`${API_URL}/admin/providers`, {
+                headers: { Cookie: cookieStore.toString() },
+                cache: "no-store",
+            });
+            const data = await res.json();
+            return { data, error: null };
+        } catch (err) {
+            return { data: null, error: { message: "Failed to fetch providers" } };
         }
     },
 
@@ -61,28 +72,24 @@ export const adminService = {
             const cookieStore = await cookies();
             const res = await fetch(`${API_URL}/admin/approve-provider/${userId}`, {
                 method: "PATCH",
-                headers: {
-                    Cookie: cookieStore.toString(),
-                },
+                headers: { Cookie: cookieStore.toString() },
             });
             const data = await res.json();
-            return { data: data, error: null };
+            return { data, error: null };
         } catch (err) {
             return { data: null, error: { message: "Failed to approve provider" } };
         }
     },
 
-    getCategories: async function () {
+    getAllCategories: async function () {
         try {
             const cookieStore = await cookies();
             const res = await fetch(`${API_URL}/admin/categories`, {
-                headers: {
-                    Cookie: cookieStore.toString(),
-                },
+                headers: { Cookie: cookieStore.toString() },
                 cache: "no-store",
             });
             const data = await res.json();
-            return { data: data, error: null };
+            return { data, error: null };
         } catch (err) {
             return { data: null, error: { message: "Failed to fetch categories" } };
         }
@@ -93,13 +100,11 @@ export const adminService = {
             const cookieStore = await cookies();
             const res = await fetch(`${API_URL}/admin/categories`, {
                 method: "POST",
-                headers: {
-                    Cookie: cookieStore.toString(),
-                },
+                headers: { Cookie: cookieStore.toString() },
                 body: categoryData,
             });
             const data = await res.json();
-            return { data: data, error: null };
+            return { data, error: null };
         } catch (err) {
             return { data: null, error: { message: "Failed to add category" } };
         }
@@ -110,13 +115,11 @@ export const adminService = {
             const cookieStore = await cookies();
             const res = await fetch(`${API_URL}/admin/categories/${id}`, {
                 method: "PUT",
-                headers: {
-                    Cookie: cookieStore.toString(),
-                },
+                headers: { Cookie: cookieStore.toString() },
                 body: categoryData,
             });
             const data = await res.json();
-            return { data: data, error: null };
+            return { data, error: null };
         } catch (err) {
             return { data: null, error: { message: "Failed to update category" } };
         }
@@ -127,15 +130,10 @@ export const adminService = {
             const cookieStore = await cookies();
             const res = await fetch(`${API_URL}/admin/categories/${id}`, {
                 method: "DELETE",
-                headers: {
-                    Cookie: cookieStore.toString(),
-                },
+                headers: { Cookie: cookieStore.toString() },
             });
             const data = await res.json();
-            if (!res.ok || !data.success) {
-                return { data: null, error: { message: data.message || "Failed to delete category" } };
-            }
-            return { data: data, error: null };
+            return { data, error: null };
         } catch (err) {
             return { data: null, error: { message: "Failed to delete category" } };
         }
@@ -145,15 +143,13 @@ export const adminService = {
         try {
             const cookieStore = await cookies();
             const res = await fetch(`${API_URL}/admin/orders`, {
-                headers: {
-                    Cookie: cookieStore.toString(),
-                },
+                headers: { Cookie: cookieStore.toString() },
                 cache: "no-store",
             });
             const data = await res.json();
-            return { data: data, error: null };
+            return { data, error: null };
         } catch (err) {
-            return { data: null, error: { message: "Failed to fetch all orders" } };
+            return { data: null, error: { message: "Failed to fetch orders" } };
         }
     },
 };
