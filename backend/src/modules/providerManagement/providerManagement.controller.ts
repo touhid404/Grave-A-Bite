@@ -190,6 +190,22 @@ const getProfile = async (req: Request, res: Response) => {
     }
 };
 
+const getProviderStats = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.id as string;
+        const stats = await ProviderManagementService.getProviderStats(userId);
+        res.status(200).json({
+            success: true,
+            data: stats,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
 const updateProfile = async (req: Request, res: Response) => {
     try {
         const userId = req.user?.id as string;
@@ -223,4 +239,5 @@ export const ProviderManagementController = {
     getProviderMeals,
     getProfile,
     updateProfile,
+    getProviderStats,
 };

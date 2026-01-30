@@ -154,6 +154,61 @@ const getProfile = async (userId: string) => {
     });
 };
 
+const getProviderStats = async (userId: string) => {
+    const provider = await prisma.providerProfile.findUnique({
+        where: { userId },
+    });
+
+    if (!provider) {
+        throw new Error("Provider profile not found");
+    }
+
+    const mealsCount = await prisma.meal.count({
+        where: { providerId: provider.id },
+    });
+
+    const orders = await prisma.order.findMany({
+        where: {
+            orderItems: {
+                some: {
+                    meal: {
+                        providerId: provider.id,
+                    },
+                },
+            },
+        },
+        include: {
+            orderItems: {
+                where: {
+                    meal: {
+                        providerId: provider.id
+                    }
+                }
+            }
+        }
+    });
+
+    const totalOrders = orders.length;
+
+    // Calculate revenue only from delivered orders
+    const totalRevenue = orders
+        .filter(o => o.status === OrderStatus.DELIVERED)
+        .reduce((sum, order) => {
+            // For revenue, we sum the amount of items from THIS provider
+            const providerItemsTotal = order.orderItems.reduce((iSum, item) => iSum + (item.price * item.quantity), 0);
+            return sum + providerItemsTotal;
+        }, 0);
+
+    const activeOrders = orders.filter(o => ["PLACED", "PREPARING", "READY"].includes(o.status)).length;
+
+    return {
+        totalOrders,
+        totalRevenue,
+        mealsCount,
+        activeOrders,
+    };
+};
+
 const updateProfile = async (userId: string, profileData: Partial<ProviderProfile>) => {
     return await prisma.providerProfile.update({
         where: { userId },
@@ -171,4 +226,5 @@ export const ProviderManagementService = {
     getProviderMeals,
     getProfile,
     updateProfile,
+    getProviderStats,
 };

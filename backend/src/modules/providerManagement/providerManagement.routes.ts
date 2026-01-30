@@ -12,6 +12,7 @@ router.get("/meals", authMiddleware(UserRole.PROVIDER), ProviderManagementContro
 router.get("/orders", authMiddleware(UserRole.PROVIDER), ProviderManagementController.getProviderOrders);
 router.get("/orders/:id", authMiddleware(UserRole.PROVIDER), ProviderManagementController.getOrderById);
 router.patch("/orders/:id", authMiddleware(UserRole.PROVIDER), ProviderManagementController.updateOrderStatus);
+router.get("/stats", authMiddleware(UserRole.PROVIDER), ProviderManagementController.getProviderStats);
 
 // Profile Settings
 router.get("/profile", authMiddleware(UserRole.PROVIDER), ProviderManagementController.getProfile);
