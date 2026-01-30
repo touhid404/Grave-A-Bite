@@ -88,6 +88,7 @@ const Navbar = ({
   const router = useRouter();
   const pathname = usePathname();
   const { data: session, isPending } = authClient.useSession();
+  console.log(session);
   const [scrolled, setScrolled] = React.useState(false);
 
   React.useEffect(() => {

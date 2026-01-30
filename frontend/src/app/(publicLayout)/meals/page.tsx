@@ -40,13 +40,11 @@ export default async function MealsPage({ searchParams }: MealsPageProps) {
     const hasError = mealsRes.error?.message;
 
     return (
-        <div className="min-h-screen pt-24 pb-16 mx-5 md:mx-10">
+        <div className="min-h-screen pt-24 pb-16">
             <div className="container mx-auto px-4">
 
-                {/* Dynamic Filter Component */}
                 <MealsFilter categories={categories} searchParams={params} />
 
-                {/* Results Grid */}
                 {hasError ? (
                     <div className="flex flex-col items-center justify-center py-32 bg-card/50 backdrop-blur-xl rounded-[40px] border-2 border-dashed border-destructive/20 text-center px-6">
                         <div className="p-4 bg-destructive/10 rounded-full mb-6">
