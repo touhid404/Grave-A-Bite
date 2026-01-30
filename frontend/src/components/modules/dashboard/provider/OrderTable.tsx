@@ -29,15 +29,7 @@ interface OrderTableProps {
     onUpdateStatus: (orderId: string, status: string) => Promise<any>;
 }
 
-const statusConfig: Record<string, { label: string; color: string; icon: any }> = {
-    PLACED: { label: "Placed", color: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20", icon: Clock },
-    PREPARING: { label: "Preparing", color: "bg-purple-500/10 text-purple-500 border-purple-500/20", icon: Package },
-    READY: { label: "Ready", color: "bg-blue-500/10 text-blue-500 border-blue-500/20", icon: CheckCircle },
-    DELIVERED: { label: "Delivered", color: "bg-green-500/10 text-green-500 border-green-500/20", icon: CheckCircle },
-    CANCELLED: { label: "Cancelled", color: "bg-red-500/10 text-red-500 border-red-500/20", icon: XCircle },
-};
-
-const statusFlow = ["PLACED", "PREPARING", "READY", "DELIVERED"];
+import { ORDER_STATUS_CONFIG, ORDER_STATUS_FLOW } from "@/constants/order";
 
 export function OrderTable({ orders, onUpdateStatus }: OrderTableProps) {
     const [loadingId, setLoadingId] = useState<string | null>(null);
@@ -50,7 +42,7 @@ export function OrderTable({ orders, onUpdateStatus }: OrderTableProps) {
             if (error) {
                 toast.error(error.message);
             } else {
-                toast.success(`Order updated to ${statusConfig[newStatus]?.label || newStatus}`);
+                toast.success(`Order updated to ${ORDER_STATUS_CONFIG[newStatus]?.label || newStatus}`);
                 router.refresh();
             }
         } catch (err) {
@@ -61,9 +53,9 @@ export function OrderTable({ orders, onUpdateStatus }: OrderTableProps) {
     };
 
     const getNextStatus = (currentStatus: string) => {
-        const currentIndex = statusFlow.indexOf(currentStatus);
-        if (currentIndex === -1 || currentIndex === statusFlow.length - 1) return null;
-        return statusFlow[currentIndex + 1];
+        const currentIndex = ORDER_STATUS_FLOW.indexOf(currentStatus);
+        if (currentIndex === -1 || currentIndex === ORDER_STATUS_FLOW.length - 1) return null;
+        return ORDER_STATUS_FLOW[currentIndex + 1];
     };
 
     return (
@@ -88,7 +80,7 @@ export function OrderTable({ orders, onUpdateStatus }: OrderTableProps) {
                         </TableRow>
                     ) : (
                         orders.map((order) => {
-                            const config = statusConfig[order.status] || statusConfig.PENDING;
+                            const config = ORDER_STATUS_CONFIG[order.status] || ORDER_STATUS_CONFIG.PLACED;
                             const StatusIcon = config.icon;
                             const nextStatus = getNextStatus(order.status);
 
@@ -164,7 +156,7 @@ export function OrderTable({ orders, onUpdateStatus }: OrderTableProps) {
                                                         onClick={() => handleStatusUpdate(order.id, nextStatus)}
                                                     >
                                                         <div className="flex items-center gap-3 font-bold text-xs">
-                                                            Move to {statusConfig[nextStatus]?.label}
+                                                            Move to {ORDER_STATUS_CONFIG[nextStatus]?.label}
                                                         </div>
                                                     </DropdownMenuItem>
                                                 )}

@@ -1,5 +1,7 @@
 import { getAllUsersAction, updateUserStatusAction } from "@/actions/admin.action";
 import { UserTable } from "@/components/modules/dashboard/admin/UserTable";
+import { Roles } from "@/constants/roles";
+import { Customer } from "@/types";
 
 export default async function UsersPage() {
     const { data, error } = await getAllUsersAction();
@@ -18,7 +20,7 @@ export default async function UsersPage() {
     }
 
     const allUsers = data?.data || [];
-    const users = allUsers.filter((u: any) => u.role !== "ADMIN");
+    const users = allUsers.filter((u:Customer) => u.role === Roles.customer);
 
     return (
         <div className="space-y-8">

@@ -1,5 +1,5 @@
 import { Route } from "@/types";
-import { History, UserCircle } from "lucide-react";
+import { History, UserCircle, UtensilsCrossed } from "lucide-react";
 
 export const userRoutes: Route[] = [
   {
@@ -14,6 +14,11 @@ export const userRoutes: Route[] = [
         title: "My Profile",
         url: "/dashboard/profile",
         icon: UserCircle,
+      },
+      {
+        title: "Become a Provider",
+        url: "/dashboard/become-provider",
+        icon: UtensilsCrossed,
       },
     ],
   },

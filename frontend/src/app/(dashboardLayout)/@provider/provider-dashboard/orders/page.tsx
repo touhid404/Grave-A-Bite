@@ -37,9 +37,9 @@ export default async function OrdersPage() {
                     </div>
                     <div className="w-px h-8 bg-border/50" />
                     <div className="px-4 py-2 text-center">
-                        <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Pending</p>
+                        <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">New</p>
                         <p className="text-xl font-black italic tracking-tighter leading-none text-yellow-500">
-                            {orders.filter((o: any) => o.status === "PENDING").length}
+                            {orders.filter((o: any) => o.status === "PLACED").length}
                         </p>
                     </div>
                 </div>

@@ -48,3 +48,7 @@ export const updateProfileAction = async (profileData: FormData) => {
     revalidateTag("profile", "max");
     return res;
 };
+
+export const getStatsAction = async () => {
+    return await providerService.getStats();
+};

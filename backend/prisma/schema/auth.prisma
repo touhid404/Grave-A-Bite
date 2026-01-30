@@ -13,6 +13,8 @@ model User {
     phone  String?
     status String? @default("ACTIVE")
 
+    providerProfile ProviderProfile?
+
     @@unique([email])
     @@map("user")
 }

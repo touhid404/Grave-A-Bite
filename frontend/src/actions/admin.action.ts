@@ -7,6 +7,14 @@ export const getAllUsersAction = async () => {
     return await adminService.getAllUsers();
 };
 
+export const getAllProvidersAction = async () => {
+    return await adminService.getAllProviders();
+};
+
+export const approveProviderAction = async (userId: string) => {
+    return await adminService.approveProvider(userId);
+};
+
 export const updateUserStatusAction = async (userId: string, status: string) => {
     const res = await adminService.updateUserStatus(userId, status);
     return res;

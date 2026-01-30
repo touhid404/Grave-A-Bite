@@ -19,3 +19,7 @@ export const submitReviewAction = async (reviewData: { mealId: string; rating: n
     revalidateTag("meals", "max");
     return res;
 };
+
+export const requestBecomeProviderAction = async (providerData: any) => {
+    return await customerService.requestBecomeProvider(providerData);
+};

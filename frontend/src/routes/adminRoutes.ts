@@ -16,6 +16,11 @@ export const adminRoutes: Route[] = [
         icon: Users,
       },
       {
+        title: "Providers",
+        url: "/admin-dashboard/providers",
+        icon: Users,
+      },
+      {
         title: "Categories",
         url: "/admin-dashboard/categories",
         icon: Grid,
