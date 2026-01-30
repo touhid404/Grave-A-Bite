@@ -61,4 +61,25 @@ export const customerService = {
       return { data: null, error: { message: "Failed to update profile" } };
     }
   },
+
+  requestBecomeProvider: async function (providerData: any) {
+    try {
+      const cookieStore = await cookies();
+      const res = await fetch(`${API_URL}/auth-user-info/request-become-provider`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookieStore.toString(),
+        },
+        body: JSON.stringify(providerData),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        return { success: false, message: data.message || "Failed to submit request" };
+      }
+      return { success: true, data: data };
+    } catch (err) {
+      return { success: false, message: "Failed to submit request" };
+    }
+  },
 };

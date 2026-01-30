@@ -22,6 +22,22 @@ export const adminService = {
         }
     },
 
+    getAllProviders: async function () {
+        try {
+            const cookieStore = await cookies();
+            const res = await fetch(`${API_URL}/admin/providers`, {
+                headers: {
+                    Cookie: cookieStore.toString(),
+                },
+                cache: "no-store",
+            });
+            const data = await res.json();
+            return { data: data, error: null };
+        } catch (err) {
+            return { data: null, error: { message: "Failed to fetch providers" } };
+        }
+    },
+
     updateUserStatus: async function (userId: string, status: string) {
         try {
             const cookieStore = await cookies();
@@ -37,6 +53,22 @@ export const adminService = {
             return { data: data, error: null };
         } catch (err) {
             return { data: null, error: { message: "Failed to update user status" } };
+        }
+    },
+
+    approveProvider: async function (userId: string) {
+        try {
+            const cookieStore = await cookies();
+            const res = await fetch(`${API_URL}/admin/approve-provider/${userId}`, {
+                method: "PATCH",
+                headers: {
+                    Cookie: cookieStore.toString(),
+                },
+            });
+            const data = await res.json();
+            return { data: data, error: null };
+        } catch (err) {
+            return { data: null, error: { message: "Failed to approve provider" } };
         }
     },
 

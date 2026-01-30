@@ -169,4 +169,23 @@ export const providerService = {
             return { data: null, error: { message: "Failed to update profile" } };
         }
     },
+
+    getStats: async function () {
+        try {
+            const cookieStore = await cookies();
+            const res = await fetch(`${API_URL}/provider-management/stats`, {
+                headers: {
+                    Cookie: cookieStore.toString(),
+                },
+                cache: "no-store",
+            });
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+                return { data: null, error: { message: data.message || "Failed to fetch stats" } };
+            }
+            return { data: data.data, error: null };
+        } catch (err) {
+            return { data: null, error: { message: "Failed to fetch stats" } };
+        }
+    },
 };
