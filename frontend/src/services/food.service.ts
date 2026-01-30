@@ -1,7 +1,5 @@
-import { env } from "@/env";
+import { API_URL } from "@/env";
 import { cookies } from "next/headers";
-
-const API_URL = env.API_URL;
 
 interface ServiceOptions {
   cache?: RequestCache;

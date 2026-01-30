@@ -1,7 +1,5 @@
-import { env } from "@/env";
+import { AUTH_URL, API_URL } from "@/env";
 import { cookies } from "next/headers";
-
-const AUTH_URL = env.AUTH_URL;
 
 export const customerService = {
   getSession: async function () {
@@ -31,7 +29,7 @@ export const customerService = {
   getProfile: async function () {
     try {
       const cookieStore = await cookies();
-      const res = await fetch(`${env.API_URL}/auth-user-info`, {
+      const res = await fetch(`${API_URL}/auth-user-info`, {
         headers: {
           Cookie: cookieStore.toString(),
         },
@@ -47,7 +45,7 @@ export const customerService = {
   updateProfile: async function (profileData: FormData) {
     try {
       const cookieStore = await cookies();
-      const res = await fetch(`${env.API_URL}/auth-user-info`, {
+      const res = await fetch(`${API_URL}/auth-user-info`, {
         method: "PUT",
         headers: {
           Cookie: cookieStore.toString(),
