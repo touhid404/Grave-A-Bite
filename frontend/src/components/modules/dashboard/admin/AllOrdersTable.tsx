@@ -64,7 +64,7 @@ export function AllOrdersTable({ orders }: AllOrdersTableProps) {
                                     </div>
                                 </TableCell>
                                 <TableCell className="py-6">
-                                    <span className="font-black text-sm italic tracking-tighter">${order.totalAmount.toFixed(2)}</span>
+                                    <span className="font-black text-sm italic tracking-tighter">BDT {order.totalAmount.toFixed(2)}</span>
                                 </TableCell>
                                 <TableCell className="py-6">
                                     <Badge

@@ -18,7 +18,7 @@ export default async function AdminDashboard() {
   const adminStats = [
     { title: "Total Operatives", value: stats.userCount.toLocaleString(), icon: Users, color: "text-blue-500", desc: "Total registered users" },
     { title: "Active Providers", value: stats.providerCount.toLocaleString(), icon: Store, color: "text-primary", desc: "Approved merchant nodes" },
-    { title: "Global Revenue", value: `$${stats.totalRevenue.toLocaleString()}`, icon: DollarSign, color: "text-emerald-500", desc: "Total platform turnover" },
+    { title: "Global Revenue", value: `BDT ${stats.totalRevenue.toLocaleString()}`, icon: DollarSign, color: "text-emerald-500", desc: "Total platform turnover" },
     { title: "Total Extractions", value: stats.orderCount.toLocaleString(), icon: BarChart3, color: "text-purple-500", desc: "Total completed orders" },
     { title: "Pending Clearance", value: stats.pendingApprovals.toLocaleString(), icon: ShieldCheck, color: "text-red-500", desc: "Providers awaiting approval" },
     { title: "System Status", value: "Operational", icon: Activity, color: "text-cyan-500", desc: "All systems online" },

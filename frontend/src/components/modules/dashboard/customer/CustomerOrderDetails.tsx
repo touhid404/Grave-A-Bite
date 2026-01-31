@@ -94,7 +94,7 @@ export function CustomerOrderDetails({ order }: OrderDetailsProps) {
                                             <div>
                                                 <h4 className="font-black italic uppercase tracking-tighter text-lg">{item.meal?.name}</h4>
                                                 <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-                                                    {item.quantity} x ${item.price.toFixed(2)}
+                                                    {item.quantity} x BDT {item.price.toFixed(2)}
                                                 </p>
                                             </div>
                                             {order.status === "DELIVERED" && (
@@ -103,7 +103,7 @@ export function CustomerOrderDetails({ order }: OrderDetailsProps) {
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="font-black italic text-xl tracking-tighter">${(item.quantity * item.price).toFixed(2)}</p>
+                                        <p className="font-black italic text-xl tracking-tighter">BDT {(item.quantity * item.price).toFixed(2)}</p>
                                     </div>
                                 </div>
                             ))}
@@ -122,17 +122,17 @@ export function CustomerOrderDetails({ order }: OrderDetailsProps) {
                     <CardContent className="pt-8 space-y-6">
                         <div className="flex justify-between items-center text-sm font-bold opacity-60 uppercase tracking-widest">
                             <span>Subtotal</span>
-                            <span>${(order.totalAmount - 50).toFixed(2)}</span>
+                            <span>BDT {(order.totalAmount - 50).toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between items-center text-sm font-bold opacity-60 uppercase tracking-widest">
                             <span>Delivery Fee</span>
-                            <span>$50.00</span>
+                            <span>BDT 50.00</span>
                         </div>
                         <Separator className="bg-white/10" />
                         <div className="flex justify-between items-end">
                             <div>
                                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Grand Total</p>
-                                <p className="text-4xl font-black italic tracking-tighter leading-none">${order.totalAmount.toFixed(2)}</p>
+                                <p className="text-4xl font-black italic tracking-tighter leading-none">BDT {order.totalAmount.toFixed(2)}</p>
                             </div>
                             <Badge className="bg-white/10 text-white border-white/20 text-[10px] font-black uppercase italic tracking-widest px-4">COD PAID</Badge>
                         </div>

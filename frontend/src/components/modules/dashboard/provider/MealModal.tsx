@@ -177,7 +177,7 @@ export function MealModal({ onAdd, onUpdate, meal, categories, trigger }: MealMo
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="price" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Price ($)</Label>
+                                <Label htmlFor="price" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Price (BDT)</Label>
                                 <Input
                                     id="price"
                                     type="number"

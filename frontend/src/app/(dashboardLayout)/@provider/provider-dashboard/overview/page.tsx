@@ -16,7 +16,7 @@ export default async function Overview() {
     const statCards = [
         {
             title: "Total Revenue",
-            value: `$${stats?.totalRevenue?.toFixed(2) || "0.00"}`,
+            value: `BDT ${stats?.totalRevenue?.toFixed(2) || "0.00"}`,
             description: "Net earnings from delivered orders",
             icon: DollarSign,
             color: "text-emerald-500",

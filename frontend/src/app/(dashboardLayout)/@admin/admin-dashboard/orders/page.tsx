@@ -29,7 +29,7 @@ export default async function OrdersPage() {
                     <div className="px-6 py-2 text-center">
                         <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Revenue</p>
                         <p className="text-2xl font-black italic tracking-tighter leading-none text-primary">
-                            ${orders.reduce((acc: number, o: any) => acc + (o.status !== "CANCELLED" ? o.totalAmount : 0), 0).toFixed(2)}
+                            BDT {orders.reduce((acc: number, o: any) => acc + (o.status !== "CANCELLED" ? o.totalAmount : 0), 0).toFixed(2)}
                         </p>
                     </div>
                 </div>

@@ -102,7 +102,7 @@ export function MealList({ meals, categories, onDelete, onUpdate }: MealListProp
                                     </Badge>
                                 </TableCell>
                                 <TableCell className="py-6">
-                                    <span className="font-black italic text-sm tracking-tighter">${meal.price.toFixed(2)}</span>
+                                    <span className="font-black italic text-sm tracking-tighter">BDT {meal.price.toFixed(2)}</span>
                                 </TableCell>
                                 <TableCell className="py-6">
                                     <Badge

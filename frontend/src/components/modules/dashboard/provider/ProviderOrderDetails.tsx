@@ -138,12 +138,12 @@ export function ProviderOrderDetails({ order, onUpdateStatus }: OrderDetailsProp
                                                 QTY: {item.quantity}
                                             </Badge>
                                             <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-                                                Unit Price: ${item.price.toFixed(2)}
+                                                Unit Price: BDT {item.price.toFixed(2)}
                                             </p>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="font-black italic text-2xl tracking-tighter">${(item.quantity * item.price).toFixed(2)}</p>
+                                        <p className="font-black italic text-2xl tracking-tighter">BDT {(item.quantity * item.price).toFixed(2)}</p>
                                     </div>
                                 </div>
                             ))}
@@ -151,7 +151,7 @@ export function ProviderOrderDetails({ order, onUpdateStatus }: OrderDetailsProp
                     </CardContent>
                     <CardFooter className="bg-muted/30 border-t border-border/50 p-6 flex justify-between items-center">
                         <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Provider Subtotal (Excl. Delivery)</span>
-                        <span className="font-black italic text-xl">${(order.orderItems?.reduce((acc: number, item: any) => acc + (item.quantity * item.price), 0) || 0).toFixed(2)}</span>
+                        <span className="font-black italic text-xl">BDT {(order.orderItems?.reduce((acc: number, item: any) => acc + (item.quantity * item.price), 0) || 0).toFixed(2)}</span>
                     </CardFooter>
                 </Card>
             </div>

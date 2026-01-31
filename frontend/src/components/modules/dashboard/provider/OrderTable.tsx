@@ -107,7 +107,7 @@ export function OrderTable({ orders, onUpdateStatus }: OrderTableProps) {
                                     </TableCell>
                                     <TableCell className="py-6">
                                         <span className="font-black italic text-sm tracking-tighter">
-                                            ${order.totalAmount?.toFixed(2) || "0.00"}
+                                            BDT {order.totalAmount?.toFixed(2) || "0.00"}
                                         </span>
                                     </TableCell>
                                     <TableCell className="py-6">

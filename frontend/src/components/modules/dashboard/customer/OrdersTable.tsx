@@ -111,7 +111,7 @@ export default function OrdersTable({ orders }: { orders: Order[] }) {
                                     </span>
                                 </TableCell>
                                 <TableCell>
-                                    <span className="text-lg font-black text-primary">${order.totalPrice}</span>
+                                    <span className="text-lg font-black text-primary">BDT {order.totalPrice}</span>
                                 </TableCell>
                                 <TableCell>
                                     <Badge className={`rounded-lg py-1 px-3 font-bold border ${getStatusColor(order.status)} shrink-0`}>
