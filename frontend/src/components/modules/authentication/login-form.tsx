@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import * as z from "zod";
+import { env } from "@/env";
 
 const formSchema = z.object({
   password: z.string().min(8, "Minimum length is 8"),
@@ -31,7 +32,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
   const router = useRouter();
 
   const handleGoogleLogin = async () => {
-    const origin = process.env.NEXT_PUBLIC_CLIENT_URL;
+    const origin = env.NEXT_PUBLIC_CLIENT_URL;
     await authClient.signIn.social({
       provider: "google",
       callbackURL: origin,

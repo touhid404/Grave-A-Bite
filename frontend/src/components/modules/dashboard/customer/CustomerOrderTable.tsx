@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { ORDER_STATUS_CONFIG } from "@/constants/order";
+import { OrderReviewDialog } from "./OrderReviewDialog";
 
 interface CustomerOrderTableProps {
     orders: any[];
@@ -110,15 +111,7 @@ export function CustomerOrderTable({ orders }: CustomerOrderTableProps) {
                                                     </Link>
                                                 </DropdownMenuItem>
                                                 {order.status === "DELIVERED" && (
-                                                    <DropdownMenuItem asChild>
-                                                        <Link
-                                                            href={`/dashboard/orders/${order.id}`}
-                                                            className="rounded-xl px-4 py-3 focus:bg-primary/10 focus:text-primary cursor-pointer transition-colors flex items-center gap-3 font-bold text-xs"
-                                                        >
-                                                            <Star className="h-4 w-4" />
-                                                            Rate Meals
-                                                        </Link>
-                                                    </DropdownMenuItem>
+                                                    <OrderReviewDialog order={order} />
                                                 )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>

@@ -72,6 +72,7 @@ model Order {
   updatedAt       DateTime    @updatedAt
 
   orderItems OrderItem[]
+  reviews    Review[]
 
   @@map("order")
 }
@@ -95,10 +96,12 @@ model Review {
   comment   String?
   mealId    String
   userId    String
+  orderId   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  meal Meal @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  meal  Meal   @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  order Order? @relation(fields: [orderId], references: [id], onDelete: SetNull)
 
   @@unique([mealId, userId])
   @@map("review")

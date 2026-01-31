@@ -23,6 +23,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import * as z from "zod";
 import { MailCheck, ArrowLeft } from "lucide-react";
+import { env } from "@/env";
 
 const formSchema = z.object({
   name: z.string().min(1, "This field is required"),
@@ -35,7 +36,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
   const [emailSent, setEmailSent] = React.useState(false);
 
   const handleGoogleLogin = async () => {
-    const origin = process.env.NEXT_PUBLIC_CLIENT_URL;
+    const origin = env.NEXT_PUBLIC_CLIENT_URL;
     await authClient.signIn.social({
       provider: "google",
       callbackURL: origin,
@@ -79,7 +80,7 @@ export function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
           <CardTitle className="text-4xl font-black tracking-tighter uppercase leading-none">
             Check your <span className="text-primary italic">Inbox</span>
           </CardTitle>
-          <CardDescription className="text-muted-foreground font-bold text-sm mt-4 max-w-[280px] mx-auto">
+          <CardDescription className="text-muted-foreground font-bold text-sm mt-4 max-w-70 mx-auto">
             We've sent a verification link to your email address. Please click it to activate your account.
           </CardDescription>
         </CardHeader>
