@@ -94,23 +94,69 @@ const getMealById = async (id: string) => {
 };
 
 const getAllProviders = async () => {
-  return await prisma.providerProfile.findMany({
+  const providers = await prisma.providerProfile.findMany({
     where: { isApproved: true },
+    include: {
+      meals: {
+        include: {
+          reviews: true,
+        },
+      },
+    },
   });
+
+  // Calculate metrics for each provider
+  const providersWithMetrics = await Promise.all(
+    providers.map(async (provider) => {
+      const orderCount = await prisma.orderItem.groupBy({
+        by: ["orderId"],
+        where: {
+          meal: {
+            providerId: provider.id,
+          },
+        },
+      });
+
+      return {
+        ...provider,
+        orderCount: orderCount.length,
+      };
+    }),
+  );
+
+  return providersWithMetrics;
 };
 
 const getProviderById = async (id: string) => {
-  return await prisma.providerProfile.findUnique({
+  const provider = await prisma.providerProfile.findUnique({
     where: { id },
     include: {
       meals: {
         where: { isAvailable: true },
         include: {
           category: true,
+          reviews: true,
         },
       },
     },
   });
+
+  if (!provider) return null;
+
+  // Calculate unique orders for this provider
+  const orderCount = await prisma.orderItem.groupBy({
+    by: ["orderId"],
+    where: {
+      meal: {
+        providerId: id,
+      },
+    },
+  });
+
+  return {
+    ...provider,
+    orderCount: orderCount.length,
+  };
 };
 
 const getAllCategories = async () => {

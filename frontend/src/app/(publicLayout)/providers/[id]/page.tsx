@@ -15,11 +15,6 @@ export default async function ProviderProfilePage({ params }: ProviderProfilePag
     const response = await foodService.getProviderById(id);
     const provider = response.data?.data;
 
-    // Assuming provider profile includes meals in the data or we fetch them separately
-    // For now, let's fetch meals for this provider if not included
-    const mealsResponse = await foodService.getMeals({ limit: "20" }); // Should ideally filter by providerId
-    const providerMeals = mealsResponse.data?.data?.filter((m: any) => m.providerId === id) || [];
-
     if (!provider) {
         return (
             <div className="min-h-screen pt-32 flex items-center justify-center">
@@ -28,23 +23,31 @@ export default async function ProviderProfilePage({ params }: ProviderProfilePag
         );
     }
 
+    const providerMeals = provider.meals || [];
+    
+    // Calculate overall rating from all meals
+    const allReviews = providerMeals.flatMap((m: any) => m.reviews || []);
+    const averageRating = allReviews.length > 0 
+        ? (allReviews.reduce((acc: number, r: any) => acc + r.rating, 0) / allReviews.length).toFixed(1)
+        : null;
+
     return (
-        <div className="min-h-screen bg-background">
-            {/* Cover Header */}
+        <div className="min-h-screen bg-background text-foreground">
             <div className="relative h-64 md:h-96 w-full">
                 <Image
                     src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80"
                     fill
                     alt="Cover"
                     className="object-cover"
+                    priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-background/90 via-background/20 to-transparent" />
             </div>
 
             <div className="container mx-auto px-4 relative -mt-32 md:-mt-48 z-10">
                 <div className="flex flex-col md:flex-row gap-8 items-start mb-16">
                     {/* Logo/Avatar */}
-                    <Avatar className="h-32 w-32 md:h-48 md:w-48 border-8 border-background bg-card shadow-xl">
+                    <Avatar className="h-32 w-32 md:h-48 md:w-48 border-8 border-background bg-card shadow-2xl">
                         <AvatarImage src={provider.logo} />
                         <AvatarFallback className="bg-primary text-black text-4xl font-black uppercase">
                             {provider.storeName[0]}
@@ -54,22 +57,47 @@ export default async function ProviderProfilePage({ params }: ProviderProfilePag
                     {/* Info */}
                     <div className="flex-1 pt-4 md:pt-16">
                         <div className="flex flex-wrap items-center gap-4 mb-4">
-                            <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic">{provider.storeName}</h1>
-                            <Badge className="bg-primary text-black px-4 py-1 font-bold">Verified Provider</Badge>
+                            <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic drop-shadow-sm">{provider.storeName}</h1>
+                            <Badge className="bg-primary text-black px-4 py-1.5 font-black uppercase tracking-widest text-[10px] italic">Verified Provider</Badge>
                         </div>
 
-                        <div className="flex flex-wrap gap-6 text-muted-foreground font-medium text-lg">
+                        <div className="flex flex-wrap gap-8 text-muted-foreground font-medium text-lg">
                             <div className="flex items-center gap-2">
-                                <MapPin className="h-5 w-5 text-primary" />
-                                {provider.address}
+                                <div className="p-2 bg-muted rounded-xl">
+                                    <MapPin className="h-5 w-5 text-primary" />
+                                </div>
+                                <span className="font-bold text-sm tracking-tight">{provider.address}</span>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <Star className="h-5 w-5 text-primary fill-primary" />
-                                <span className="text-foreground font-black">4.8</span> (500+ Orders)
+                            
+                            <div className="flex items-center gap-6">
+                                {averageRating && (
+                                    <div className="flex items-center gap-2">
+                                        <div className="p-2 bg-amber-400/10 rounded-xl">
+                                            <Star className="h-5 w-5 text-amber-400 fill-amber-400" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-foreground font-black leading-none">{averageRating}</span>
+                                            <span className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">{allReviews.length} Reviews</span>
+                                        </div>
+                                    </div>
+                                )}
+                                
+                                <div className="flex items-center gap-2 border-l border-border pl-6">
+                                    <div className="p-2 bg-primary/10 rounded-xl">
+                                        <Utensils className="h-5 w-5 text-primary" />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span className="text-foreground font-black leading-none">{provider.orderCount || 0}</span>
+                                        <span className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Orders Done</span>
+                                    </div>
+                                </div>
                             </div>
+
                             <div className="flex items-center gap-2">
-                                <Utensils className="h-5 w-5 text-primary" />
-                                {provider.cuisineType || "Mixed Cuisine"}
+                                <div className="p-2 bg-muted rounded-xl">
+                                    <Utensils className="h-5 w-5 text-primary" />
+                                </div>
+                                <span className="font-bold text-sm tracking-tight">{provider.cuisineType || "Mixed Cuisine"}</span>
                             </div>
                         </div>
                     </div>

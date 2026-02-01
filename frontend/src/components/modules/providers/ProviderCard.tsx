@@ -22,7 +22,7 @@ const ProviderCard = ({ provider }: ProviderCardProps) => {
                         alt={provider.storeName}
                         className="object-cover transition-transform duration-1000 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-80" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-80" />
 
                     <div className="absolute bottom-4 left-4 right-4">
                         <div className="flex items-center gap-2 mb-2">
@@ -47,14 +47,29 @@ const ProviderCard = ({ provider }: ProviderCardProps) => {
                     </div>
 
                     <div className="flex items-center gap-4 py-2 border-t border-b border-border/50">
-                        <div className="flex items-center gap-1.5">
-                            <Star className="h-4 w-4 text-primary fill-primary" />
-                            <span className="font-black text-sm">4.8</span>
-                        </div>
-                        <div className="w-px h-3 bg-border" />
-                        <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
-                            500+ Orders
-                        </div>
+                        {(() => {
+                            const allReviews = provider.meals?.flatMap((m: any) => m.reviews || []) || [];
+                            const averageRating = allReviews.length > 0 
+                                ? (allReviews.reduce((acc: number, r: any) => acc + r.rating, 0) / allReviews.length).toFixed(1)
+                                : null;
+                            
+                            return (
+                                <>
+                                    {averageRating && (
+                                        <>
+                                            <div className="flex items-center gap-1.5">
+                                                <Star className="h-4 w-4 text-amber-400 fill-amber-400" />
+                                                <span className="font-black text-sm">{averageRating}</span>
+                                            </div>
+                                            <div className="w-px h-3 bg-border" />
+                                        </>
+                                    )}
+                                    <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground shrink-0">
+                                        {provider.orderCount || 0} Orders
+                                    </div>
+                                </>
+                            );
+                        })()}
                     </div>
 
                     <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
