@@ -22,7 +22,7 @@ const FoodCard = ({ meal }: FoodCardProps) => {
                         className="object-cover transition-transform duration-1000 group-hover:scale-105"
                     />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-60" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-60" />
 
                     <div className="absolute top-3 right-3 z-20">
                         <div className="p-1.5 bg-background/80 backdrop-blur-xl rounded-lg border border-white/5 shadow-2xl text-primary">
@@ -47,11 +47,17 @@ const FoodCard = ({ meal }: FoodCardProps) => {
                             <span className="text-xs font-bold uppercase tracking-widest text-primary/80">
                                 {meal.provider?.storeName || "Premium Kitchen"}
                             </span>
-                            <span className="text-[10px]">•</span>
-                            <div className="flex items-center gap-1">
-                                <Star className="h-3 w-3 fill-primary text-primary" />
-                                <span className="text-xs font-bold">4.8</span>
-                            </div>
+                            {meal.reviews && meal.reviews.length > 0 && (
+                                <>
+                                    <span className="text-[10px]">•</span>
+                                    <div className="flex items-center gap-1">
+                                        <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                                        <span className="text-xs font-bold">
+                                            {(meal.reviews.reduce((acc, r) => acc + r.rating, 0) / meal.reviews.length).toFixed(1)}
+                                        </span>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
 
