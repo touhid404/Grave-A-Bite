@@ -75,6 +75,7 @@ export function OrderReviewDialog({ order }: OrderReviewDialogProps) {
                         mealId,
                         rating: data.rating,
                         comment: data.comment,
+                        orderId: order.id
                     })
                 )
             );
@@ -148,8 +149,10 @@ export function OrderReviewDialog({ order }: OrderReviewDialogProps) {
                                                     className="focus:outline-none transition-transform hover:scale-110 active:scale-95"
                                                 >
                                                     <Star
-                                                        className={`h-5 w-5 transition-colors ${
-                                                            currentRating >= star ? "fill-primary text-primary" : "text-muted opacity-30"
+                                                        className={`h-5 w-5 transition-all duration-300 ${
+                                                            currentRating >= star 
+                                                                ? "fill-amber-400 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.4)]" 
+                                                                : "text-muted-foreground/20 hover:text-amber-400/50"
                                                         }`}
                                                     />
                                                 </button>

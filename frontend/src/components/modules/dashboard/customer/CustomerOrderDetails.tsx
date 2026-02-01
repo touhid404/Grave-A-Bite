@@ -97,9 +97,7 @@ export function CustomerOrderDetails({ order }: OrderDetailsProps) {
                                                     {item.quantity} x BDT {item.price.toFixed(2)}
                                                 </p>
                                             </div>
-                                            {order.status === "DELIVERED" && (
-                                                <ReviewDialog mealId={item.mealId} mealName={item.meal?.name} />
-                                            )}
+                                            {/* Review button removed as per user request */}
                                         </div>
                                     </div>
                                     <div className="text-right">

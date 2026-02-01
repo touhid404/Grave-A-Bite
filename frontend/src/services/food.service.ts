@@ -17,10 +17,7 @@ interface GetMealsParams {
 }
 
 export const foodService = {
-  getMeals: async function (
-    params?: GetMealsParams,
-    options?: ServiceOptions
-  ) {
+  getMeals: async function (params?: GetMealsParams, options?: ServiceOptions) {
     try {
       const url = new URL(`${API_URL}/public/meals`);
 
@@ -34,7 +31,9 @@ export const foodService = {
 
       const config: RequestInit = {
         cache: options?.cache || "no-store",
-        next: options?.revalidate ? { revalidate: options.revalidate } : { tags: ["meals"] },
+        next: options?.revalidate
+          ? { revalidate: options.revalidate }
+          : { tags: ["meals"] },
       };
 
       const res = await fetch(url.toString(), config);
@@ -60,7 +59,9 @@ export const foodService = {
     try {
       const config: RequestInit = {
         cache: options?.cache || "default",
-        next: options?.revalidate ? { revalidate: options.revalidate } : { tags: ["providers"] },
+        next: options?.revalidate
+          ? { revalidate: options.revalidate }
+          : { tags: ["providers"] },
       };
       const res = await fetch(`${API_URL}/public/providers`, config);
       const data = await res.json();
@@ -76,7 +77,10 @@ export const foodService = {
       const data = await res.json();
       return { data: data, error: null };
     } catch (err) {
-      return { data: null, error: { message: "Failed to fetch provider details" } };
+      return {
+        data: null,
+        error: { message: "Failed to fetch provider details" },
+      };
     }
   },
 
@@ -94,12 +98,18 @@ export const foodService = {
 
       const data = await res.json();
       if (!data.success) {
-        return { data: null, error: { message: data.message || "Order creation failed" } };
+        return {
+          data: null,
+          error: { message: data.message || "Order creation failed" },
+        };
       }
 
       return { data: data.data, error: null };
     } catch (err) {
-      return { data: null, error: { message: "Something went wrong during checkout" } };
+      return {
+        data: null,
+        error: { message: "Something went wrong during checkout" },
+      };
     }
   },
 
@@ -111,7 +121,9 @@ export const foodService = {
           Cookie: cookieStore.toString(),
         },
         cache: options?.cache || "no-store",
-        next: options?.revalidate ? { revalidate: options.revalidate } : { tags: ["orders"] },
+        next: options?.revalidate
+          ? { revalidate: options.revalidate }
+          : { tags: ["orders"] },
       };
       const res = await fetch(`${API_URL}/orders`, config);
       const data = await res.json();
@@ -133,11 +145,17 @@ export const foodService = {
       const res = await fetch(`${API_URL}/orders/${id}`, config);
       const data = await res.json();
       if (!data.success) {
-        return { data: null, error: { message: data.message || "Failed to fetch order details" } };
+        return {
+          data: null,
+          error: { message: data.message || "Failed to fetch order details" },
+        };
       }
       return { data: data.data, error: null };
     } catch (err) {
-      return { data: null, error: { message: "Something went wrong fetching order details" } };
+      return {
+        data: null,
+        error: { message: "Something went wrong fetching order details" },
+      };
     }
   },
 
@@ -145,7 +163,9 @@ export const foodService = {
     try {
       const config: RequestInit = {
         cache: options?.cache || "default",
-        next: options?.revalidate ? { revalidate: options.revalidate } : { tags: ["categories"] },
+        next: options?.revalidate
+          ? { revalidate: options.revalidate }
+          : { tags: ["categories"] },
       };
       const res = await fetch(`${API_URL}/public/categories`, config);
       const data = await res.json();
@@ -155,7 +175,12 @@ export const foodService = {
     }
   },
 
-  submitReview: async (reviewData: { mealId: string; rating: number; comment?: string }) => {
+  submitReview: async (reviewData: {
+    mealId: string;
+    rating: number;
+    comment?: string;
+    orderId?: string;
+  }) => {
     try {
       const cookieStore = await cookies();
       const res = await fetch(`${API_URL}/reviews`, {
@@ -168,12 +193,17 @@ export const foodService = {
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
-        return { data: null, error: { message: data.message || "Failed to submit review" } };
+        return {
+          data: null,
+          error: { message: data.message || "Failed to submit review" },
+        };
       }
       return { data: data.data, error: null };
     } catch (err) {
-      return { data: null, error: { message: "Something went wrong submitting your review" } };
+      return {
+        data: null,
+        error: { message: "Something went wrong submitting your review" },
+      };
     }
   },
 };
-

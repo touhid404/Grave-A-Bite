@@ -110,7 +110,7 @@ export function CustomerOrderTable({ orders }: CustomerOrderTableProps) {
                                                         View Details
                                                     </Link>
                                                 </DropdownMenuItem>
-                                                {order.status === "DELIVERED" && (
+                                                {order.status === "DELIVERED" && order.reviews?.length === 0 && (
                                                     <OrderReviewDialog order={order} />
                                                 )}
                                             </DropdownMenuContent>

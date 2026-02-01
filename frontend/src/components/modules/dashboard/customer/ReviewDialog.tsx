@@ -20,9 +20,10 @@ import { submitReviewAction } from "@/actions/customer.action";
 interface ReviewDialogProps {
     mealId: string;
     mealName: string;
+    orderId?: string;
 }
 
-export function ReviewDialog({ mealId, mealName }: ReviewDialogProps) {
+export function ReviewDialog({ mealId, mealName, orderId }: ReviewDialogProps) {
     const [open, setOpen] = useState(false);
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
@@ -44,6 +45,7 @@ export function ReviewDialog({ mealId, mealName }: ReviewDialogProps) {
                 mealId,
                 rating,
                 comment,
+                orderId
             });
 
             if (error) {
@@ -91,7 +93,9 @@ export function ReviewDialog({ mealId, mealName }: ReviewDialogProps) {
                                     className="focus:outline-none transition-transform hover:scale-125 duration-300"
                                 >
                                     <Star
-                                        className={`h-10 w-10 transition-colors ${(hover || rating) >= star ? "fill-primary text-primary" : "text-muted opacity-30"
+                                        className={`h-10 w-10 transition-all duration-300 ${(hover || rating) >= star 
+                                            ? "fill-amber-400 text-amber-400 drop-shadow-[0_0_12px_rgba(251,191,36,0.5)]" 
+                                            : "text-muted-foreground/20 hover:text-amber-400/50"
                                             }`}
                                     />
                                 </button>
