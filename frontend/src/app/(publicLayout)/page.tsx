@@ -28,7 +28,7 @@ export default async function Home() {
           <div className="flex flex-col md:flex-row items-center md:items-end justify-between mb-24 gap-12">
             <div className="max-w-2xl text-center md:text-left">
               <div className="inline-flex items-center gap-3 mb-6">
-                <div className="w-12 h-[1px] bg-primary" />
+                <div className="w-12 h-px bg-primary" />
                 <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary italic">Live Selection</span>
               </div>
               <h2 className="text-5xl md:text-8xl font-black mb-8 tracking-tighter uppercase leading-[0.85] italic">
